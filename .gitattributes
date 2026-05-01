@@ -1,0 +1,4 @@
+*.zip !text !filter !merge !diff
+*.exe !text !filter !merge !diff
+*.tar.gz !text !filter !merge !diff
+*.pkg !text !filter !merge !diff

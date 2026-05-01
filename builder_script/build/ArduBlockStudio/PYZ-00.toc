@@ -1,0 +1,601 @@
+('Z:\\home\\iaiaia\\Documentos\\Programacao\\Python\\ArduBlocks\\ardublock_studio_new\\build\\ArduBlockStudio\\PYZ-00.pyz',
+ [('PyQt6',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\site-packages\\PyQt6\\__init__.py',
+   'PYMODULE'),
+  ('__future__',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\__future__.py',
+   'PYMODULE'),
+  ('_compat_pickle',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\_compat_pickle.py',
+   'PYMODULE'),
+  ('_compression',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\_compression.py',
+   'PYMODULE'),
+  ('_py_abc',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application Data\\Programs\\Python\\Python310\\lib\\_py_abc.py',
+   'PYMODULE'),
+  ('_pydecimal',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\_pydecimal.py',
+   'PYMODULE'),
+  ('_pyi_rth_utils',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\site-packages\\PyInstaller\\fake-modules\\_pyi_rth_utils\\__init__.py',
+   'PYMODULE'),
+  ('_pyi_rth_utils.qt',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\site-packages\\PyInstaller\\fake-modules\\_pyi_rth_utils\\qt.py',
+   'PYMODULE'),
+  ('_strptime',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application Data\\Programs\\Python\\Python310\\lib\\_strptime.py',
+   'PYMODULE'),
+  ('_threading_local',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\_threading_local.py',
+   'PYMODULE'),
+  ('argparse',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application Data\\Programs\\Python\\Python310\\lib\\argparse.py',
+   'PYMODULE'),
+  ('ast',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application Data\\Programs\\Python\\Python310\\lib\\ast.py',
+   'PYMODULE'),
+  ('base64',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application Data\\Programs\\Python\\Python310\\lib\\base64.py',
+   'PYMODULE'),
+  ('bisect',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application Data\\Programs\\Python\\Python310\\lib\\bisect.py',
+   'PYMODULE'),
+  ('bz2',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application Data\\Programs\\Python\\Python310\\lib\\bz2.py',
+   'PYMODULE'),
+  ('calendar',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application Data\\Programs\\Python\\Python310\\lib\\calendar.py',
+   'PYMODULE'),
+  ('config',
+   'Z:\\home\\iaiaia\\Documentos\\Programacao\\Python\\ArduBlocks\\ardublock_studio_new\\config\\__init__.py',
+   'PYMODULE'),
+  ('config.permissions',
+   'Z:\\home\\iaiaia\\Documentos\\Programacao\\Python\\ArduBlocks\\ardublock_studio_new\\config\\permissions.py',
+   'PYMODULE'),
+  ('contextlib',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\contextlib.py',
+   'PYMODULE'),
+  ('contextvars',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\contextvars.py',
+   'PYMODULE'),
+  ('copy',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application Data\\Programs\\Python\\Python310\\lib\\copy.py',
+   'PYMODULE'),
+  ('core',
+   'Z:\\home\\iaiaia\\Documentos\\Programacao\\Python\\ArduBlocks\\ardublock_studio_new\\core\\__init__.py',
+   'PYMODULE'),
+  ('core.arduino_cli',
+   'Z:\\home\\iaiaia\\Documentos\\Programacao\\Python\\ArduBlocks\\ardublock_studio_new\\core\\arduino_cli.py',
+   'PYMODULE'),
+  ('core.boards',
+   'Z:\\home\\iaiaia\\Documentos\\Programacao\\Python\\ArduBlocks\\ardublock_studio_new\\core\\boards.py',
+   'PYMODULE'),
+  ('core.library_manager',
+   'Z:\\home\\iaiaia\\Documentos\\Programacao\\Python\\ArduBlocks\\ardublock_studio_new\\core\\library_manager.py',
+   'PYMODULE'),
+  ('csv',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application Data\\Programs\\Python\\Python310\\lib\\csv.py',
+   'PYMODULE'),
+  ('ctypes',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\ctypes\\__init__.py',
+   'PYMODULE'),
+  ('ctypes._endian',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\ctypes\\_endian.py',
+   'PYMODULE'),
+  ('ctypes.wintypes',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\ctypes\\wintypes.py',
+   'PYMODULE'),
+  ('dataclasses',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\dataclasses.py',
+   'PYMODULE'),
+  ('datetime',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application Data\\Programs\\Python\\Python310\\lib\\datetime.py',
+   'PYMODULE'),
+  ('decimal',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application Data\\Programs\\Python\\Python310\\lib\\decimal.py',
+   'PYMODULE'),
+  ('dis',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application Data\\Programs\\Python\\Python310\\lib\\dis.py',
+   'PYMODULE'),
+  ('email',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\email\\__init__.py',
+   'PYMODULE'),
+  ('email._encoded_words',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\email\\_encoded_words.py',
+   'PYMODULE'),
+  ('email._header_value_parser',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\email\\_header_value_parser.py',
+   'PYMODULE'),
+  ('email._parseaddr',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\email\\_parseaddr.py',
+   'PYMODULE'),
+  ('email._policybase',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\email\\_policybase.py',
+   'PYMODULE'),
+  ('email.base64mime',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\email\\base64mime.py',
+   'PYMODULE'),
+  ('email.charset',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\email\\charset.py',
+   'PYMODULE'),
+  ('email.contentmanager',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\email\\contentmanager.py',
+   'PYMODULE'),
+  ('email.encoders',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\email\\encoders.py',
+   'PYMODULE'),
+  ('email.errors',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\email\\errors.py',
+   'PYMODULE'),
+  ('email.feedparser',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\email\\feedparser.py',
+   'PYMODULE'),
+  ('email.generator',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\email\\generator.py',
+   'PYMODULE'),
+  ('email.header',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\email\\header.py',
+   'PYMODULE'),
+  ('email.headerregistry',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\email\\headerregistry.py',
+   'PYMODULE'),
+  ('email.iterators',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\email\\iterators.py',
+   'PYMODULE'),
+  ('email.message',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\email\\message.py',
+   'PYMODULE'),
+  ('email.parser',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\email\\parser.py',
+   'PYMODULE'),
+  ('email.policy',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\email\\policy.py',
+   'PYMODULE'),
+  ('email.quoprimime',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\email\\quoprimime.py',
+   'PYMODULE'),
+  ('email.utils',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\email\\utils.py',
+   'PYMODULE'),
+  ('fnmatch',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application Data\\Programs\\Python\\Python310\\lib\\fnmatch.py',
+   'PYMODULE'),
+  ('fractions',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application Data\\Programs\\Python\\Python310\\lib\\fractions.py',
+   'PYMODULE'),
+  ('getopt',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application Data\\Programs\\Python\\Python310\\lib\\getopt.py',
+   'PYMODULE'),
+  ('gettext',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application Data\\Programs\\Python\\Python310\\lib\\gettext.py',
+   'PYMODULE'),
+  ('glob',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application Data\\Programs\\Python\\Python310\\lib\\glob.py',
+   'PYMODULE'),
+  ('gzip',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application Data\\Programs\\Python\\Python310\\lib\\gzip.py',
+   'PYMODULE'),
+  ('hashlib',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application Data\\Programs\\Python\\Python310\\lib\\hashlib.py',
+   'PYMODULE'),
+  ('i18n',
+   'Z:\\home\\iaiaia\\Documentos\\Programacao\\Python\\ArduBlocks\\ardublock_studio_new\\i18n\\__init__.py',
+   'PYMODULE'),
+  ('i18n.translations',
+   'Z:\\home\\iaiaia\\Documentos\\Programacao\\Python\\ArduBlocks\\ardublock_studio_new\\i18n\\translations.py',
+   'PYMODULE'),
+  ('importlib',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\importlib\\__init__.py',
+   'PYMODULE'),
+  ('importlib._abc',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\importlib\\_abc.py',
+   'PYMODULE'),
+  ('importlib._bootstrap',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\importlib\\_bootstrap.py',
+   'PYMODULE'),
+  ('importlib._bootstrap_external',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\importlib\\_bootstrap_external.py',
+   'PYMODULE'),
+  ('importlib.abc',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\importlib\\abc.py',
+   'PYMODULE'),
+  ('importlib.machinery',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\importlib\\machinery.py',
+   'PYMODULE'),
+  ('importlib.metadata',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\importlib\\metadata\\__init__.py',
+   'PYMODULE'),
+  ('importlib.metadata._adapters',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\importlib\\metadata\\_adapters.py',
+   'PYMODULE'),
+  ('importlib.metadata._collections',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\importlib\\metadata\\_collections.py',
+   'PYMODULE'),
+  ('importlib.metadata._functools',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\importlib\\metadata\\_functools.py',
+   'PYMODULE'),
+  ('importlib.metadata._itertools',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\importlib\\metadata\\_itertools.py',
+   'PYMODULE'),
+  ('importlib.metadata._meta',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\importlib\\metadata\\_meta.py',
+   'PYMODULE'),
+  ('importlib.metadata._text',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\importlib\\metadata\\_text.py',
+   'PYMODULE'),
+  ('importlib.readers',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\importlib\\readers.py',
+   'PYMODULE'),
+  ('importlib.util',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\importlib\\util.py',
+   'PYMODULE'),
+  ('inspect',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application Data\\Programs\\Python\\Python310\\lib\\inspect.py',
+   'PYMODULE'),
+  ('json',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\json\\__init__.py',
+   'PYMODULE'),
+  ('json.decoder',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\json\\decoder.py',
+   'PYMODULE'),
+  ('json.encoder',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\json\\encoder.py',
+   'PYMODULE'),
+  ('json.scanner',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\json\\scanner.py',
+   'PYMODULE'),
+  ('logging',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\logging\\__init__.py',
+   'PYMODULE'),
+  ('lzma',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application Data\\Programs\\Python\\Python310\\lib\\lzma.py',
+   'PYMODULE'),
+  ('numbers',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application Data\\Programs\\Python\\Python310\\lib\\numbers.py',
+   'PYMODULE'),
+  ('opcode',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application Data\\Programs\\Python\\Python310\\lib\\opcode.py',
+   'PYMODULE'),
+  ('optparse',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application Data\\Programs\\Python\\Python310\\lib\\optparse.py',
+   'PYMODULE'),
+  ('pathlib',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application Data\\Programs\\Python\\Python310\\lib\\pathlib.py',
+   'PYMODULE'),
+  ('pickle',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application Data\\Programs\\Python\\Python310\\lib\\pickle.py',
+   'PYMODULE'),
+  ('platform',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application Data\\Programs\\Python\\Python310\\lib\\platform.py',
+   'PYMODULE'),
+  ('pprint',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application Data\\Programs\\Python\\Python310\\lib\\pprint.py',
+   'PYMODULE'),
+  ('py_compile',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\py_compile.py',
+   'PYMODULE'),
+  ('quopri',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application Data\\Programs\\Python\\Python310\\lib\\quopri.py',
+   'PYMODULE'),
+  ('random',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application Data\\Programs\\Python\\Python310\\lib\\random.py',
+   'PYMODULE'),
+  ('resources',
+   'Z:\\home\\iaiaia\\Documentos\\Programacao\\Python\\ArduBlocks\\ardublock_studio_new\\resources\\__init__.py',
+   'PYMODULE'),
+  ('resources.blockly_html',
+   'Z:\\home\\iaiaia\\Documentos\\Programacao\\Python\\ArduBlocks\\ardublock_studio_new\\resources\\blockly_html.py',
+   'PYMODULE'),
+  ('selectors',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application Data\\Programs\\Python\\Python310\\lib\\selectors.py',
+   'PYMODULE'),
+  ('serial',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\site-packages\\serial\\__init__.py',
+   'PYMODULE'),
+  ('serial.serialcli',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\site-packages\\serial\\serialcli.py',
+   'PYMODULE'),
+  ('serial.serialjava',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\site-packages\\serial\\serialjava.py',
+   'PYMODULE'),
+  ('serial.serialposix',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\site-packages\\serial\\serialposix.py',
+   'PYMODULE'),
+  ('serial.serialutil',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\site-packages\\serial\\serialutil.py',
+   'PYMODULE'),
+  ('serial.serialwin32',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\site-packages\\serial\\serialwin32.py',
+   'PYMODULE'),
+  ('serial.tools',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\site-packages\\serial\\tools\\__init__.py',
+   'PYMODULE'),
+  ('serial.tools.list_ports',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\site-packages\\serial\\tools\\list_ports.py',
+   'PYMODULE'),
+  ('serial.tools.list_ports_common',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\site-packages\\serial\\tools\\list_ports_common.py',
+   'PYMODULE'),
+  ('serial.tools.list_ports_linux',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\site-packages\\serial\\tools\\list_ports_linux.py',
+   'PYMODULE'),
+  ('serial.tools.list_ports_osx',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\site-packages\\serial\\tools\\list_ports_osx.py',
+   'PYMODULE'),
+  ('serial.tools.list_ports_posix',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\site-packages\\serial\\tools\\list_ports_posix.py',
+   'PYMODULE'),
+  ('serial.tools.list_ports_windows',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\site-packages\\serial\\tools\\list_ports_windows.py',
+   'PYMODULE'),
+  ('serial.win32',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\site-packages\\serial\\win32.py',
+   'PYMODULE'),
+  ('shutil',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application Data\\Programs\\Python\\Python310\\lib\\shutil.py',
+   'PYMODULE'),
+  ('signal',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application Data\\Programs\\Python\\Python310\\lib\\signal.py',
+   'PYMODULE'),
+  ('socket',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application Data\\Programs\\Python\\Python310\\lib\\socket.py',
+   'PYMODULE'),
+  ('statistics',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\statistics.py',
+   'PYMODULE'),
+  ('string',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application Data\\Programs\\Python\\Python310\\lib\\string.py',
+   'PYMODULE'),
+  ('stringprep',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\stringprep.py',
+   'PYMODULE'),
+  ('subprocess',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\subprocess.py',
+   'PYMODULE'),
+  ('tarfile',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application Data\\Programs\\Python\\Python310\\lib\\tarfile.py',
+   'PYMODULE'),
+  ('tempfile',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application Data\\Programs\\Python\\Python310\\lib\\tempfile.py',
+   'PYMODULE'),
+  ('textwrap',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application Data\\Programs\\Python\\Python310\\lib\\textwrap.py',
+   'PYMODULE'),
+  ('threading',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application Data\\Programs\\Python\\Python310\\lib\\threading.py',
+   'PYMODULE'),
+  ('token',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application Data\\Programs\\Python\\Python310\\lib\\token.py',
+   'PYMODULE'),
+  ('tokenize',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application Data\\Programs\\Python\\Python310\\lib\\tokenize.py',
+   'PYMODULE'),
+  ('tracemalloc',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\tracemalloc.py',
+   'PYMODULE'),
+  ('typing',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application Data\\Programs\\Python\\Python310\\lib\\typing.py',
+   'PYMODULE'),
+  ('ui',
+   'Z:\\home\\iaiaia\\Documentos\\Programacao\\Python\\ArduBlocks\\ardublock_studio_new\\ui\\__init__.py',
+   'PYMODULE'),
+  ('ui.bridge',
+   'Z:\\home\\iaiaia\\Documentos\\Programacao\\Python\\ArduBlocks\\ardublock_studio_new\\ui\\bridge.py',
+   'PYMODULE'),
+  ('ui.library_dialog',
+   'Z:\\home\\iaiaia\\Documentos\\Programacao\\Python\\ArduBlocks\\ardublock_studio_new\\ui\\library_dialog.py',
+   'PYMODULE'),
+  ('ui.main_window',
+   'Z:\\home\\iaiaia\\Documentos\\Programacao\\Python\\ArduBlocks\\ardublock_studio_new\\ui\\main_window.py',
+   'PYMODULE'),
+  ('ui.serial_monitor',
+   'Z:\\home\\iaiaia\\Documentos\\Programacao\\Python\\ArduBlocks\\ardublock_studio_new\\ui\\serial_monitor.py',
+   'PYMODULE'),
+  ('urllib',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\urllib\\__init__.py',
+   'PYMODULE'),
+  ('urllib.parse',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\urllib\\parse.py',
+   'PYMODULE'),
+  ('uu',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application Data\\Programs\\Python\\Python310\\lib\\uu.py',
+   'PYMODULE'),
+  ('zipfile',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application Data\\Programs\\Python\\Python310\\lib\\zipfile.py',
+   'PYMODULE')])

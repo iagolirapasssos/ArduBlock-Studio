@@ -1,0 +1,265 @@
+('Z:\\home\\iaiaia\\Documentos\\Programacao\\Python\\ArduBlocks\\ardublock_studio_new\\build\\ArduBlockStudio\\ArduBlockStudio.pkg',
+ {'BINARY': True,
+  'DATA': True,
+  'EXECUTABLE': True,
+  'EXTENSION': True,
+  'PYMODULE': True,
+  'PYSOURCE': True,
+  'PYZ': False,
+  'SPLASH': True,
+  'SYMLINK': False},
+ [('pyi-contents-directory _internal', '', 'OPTION'),
+  ('PYZ-00.pyz',
+   'Z:\\home\\iaiaia\\Documentos\\Programacao\\Python\\ArduBlocks\\ardublock_studio_new\\build\\ArduBlockStudio\\PYZ-00.pyz',
+   'PYZ'),
+  ('struct',
+   'Z:\\home\\iaiaia\\Documentos\\Programacao\\Python\\ArduBlocks\\ardublock_studio_new\\build\\ArduBlockStudio\\localpycs\\struct.pyc',
+   'PYMODULE'),
+  ('pyimod01_archive',
+   'Z:\\home\\iaiaia\\Documentos\\Programacao\\Python\\ArduBlocks\\ardublock_studio_new\\build\\ArduBlockStudio\\localpycs\\pyimod01_archive.pyc',
+   'PYMODULE'),
+  ('pyimod02_importers',
+   'Z:\\home\\iaiaia\\Documentos\\Programacao\\Python\\ArduBlocks\\ardublock_studio_new\\build\\ArduBlockStudio\\localpycs\\pyimod02_importers.pyc',
+   'PYMODULE'),
+  ('pyimod03_ctypes',
+   'Z:\\home\\iaiaia\\Documentos\\Programacao\\Python\\ArduBlocks\\ardublock_studio_new\\build\\ArduBlockStudio\\localpycs\\pyimod03_ctypes.pyc',
+   'PYMODULE'),
+  ('pyimod04_pywin32',
+   'Z:\\home\\iaiaia\\Documentos\\Programacao\\Python\\ArduBlocks\\ardublock_studio_new\\build\\ArduBlockStudio\\localpycs\\pyimod04_pywin32.pyc',
+   'PYMODULE'),
+  ('pyiboot01_bootstrap',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\site-packages\\PyInstaller\\loader\\pyiboot01_bootstrap.py',
+   'PYSOURCE'),
+  ('pyi_rth_inspect',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\site-packages\\PyInstaller\\hooks\\rthooks\\pyi_rth_inspect.py',
+   'PYSOURCE'),
+  ('pyi_rth_pyqt6',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\site-packages\\PyInstaller\\hooks\\rthooks\\pyi_rth_pyqt6.py',
+   'PYSOURCE'),
+  ('main',
+   'Z:\\home\\iaiaia\\Documentos\\Programacao\\Python\\ArduBlocks\\ardublock_studio_new\\main.py',
+   'PYSOURCE'),
+  ('python310.dll',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application Data\\Programs\\Python\\Python310\\python310.dll',
+   'BINARY'),
+  ('_decimal.pyd',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\DLLs\\_decimal.pyd',
+   'EXTENSION'),
+  ('_hashlib.pyd',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\DLLs\\_hashlib.pyd',
+   'EXTENSION'),
+  ('unicodedata.pyd',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\DLLs\\unicodedata.pyd',
+   'EXTENSION'),
+  ('select.pyd',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application Data\\Programs\\Python\\Python310\\DLLs\\select.pyd',
+   'EXTENSION'),
+  ('_socket.pyd',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application Data\\Programs\\Python\\Python310\\DLLs\\_socket.pyd',
+   'EXTENSION'),
+  ('_lzma.pyd',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application Data\\Programs\\Python\\Python310\\DLLs\\_lzma.pyd',
+   'EXTENSION'),
+  ('_bz2.pyd',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application Data\\Programs\\Python\\Python310\\DLLs\\_bz2.pyd',
+   'EXTENSION'),
+  ('_ctypes.pyd',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application Data\\Programs\\Python\\Python310\\DLLs\\_ctypes.pyd',
+   'EXTENSION'),
+  ('PyQt6\\QtWebChannel.pyd',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\site-packages\\PyQt6\\QtWebChannel.pyd',
+   'EXTENSION'),
+  ('PyQt6\\sip.cp310-win_amd64.pyd',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\site-packages\\PyQt6\\sip.cp310-win_amd64.pyd',
+   'EXTENSION'),
+  ('PyQt6\\QtWebEngineWidgets.pyd',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\site-packages\\PyQt6\\QtWebEngineWidgets.pyd',
+   'EXTENSION'),
+  ('PyQt6\\QtWebEngineCore.pyd',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\site-packages\\PyQt6\\QtWebEngineCore.pyd',
+   'EXTENSION'),
+  ('PyQt6\\QtPrintSupport.pyd',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\site-packages\\PyQt6\\QtPrintSupport.pyd',
+   'EXTENSION'),
+  ('PyQt6\\QtNetwork.pyd',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\site-packages\\PyQt6\\QtNetwork.pyd',
+   'EXTENSION'),
+  ('PyQt6\\QtGui.pyd',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\site-packages\\PyQt6\\QtGui.pyd',
+   'EXTENSION'),
+  ('PyQt6\\QtCore.pyd',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\site-packages\\PyQt6\\QtCore.pyd',
+   'EXTENSION'),
+  ('PyQt6\\QtWidgets.pyd',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\site-packages\\PyQt6\\QtWidgets.pyd',
+   'EXTENSION'),
+  ('VCRUNTIME140.dll',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application Data\\Programs\\Python\\Python310\\VCRUNTIME140.dll',
+   'BINARY'),
+  ('libcrypto-1_1.dll',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\DLLs\\libcrypto-1_1.dll',
+   'BINARY'),
+  ('libffi-7.dll',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\DLLs\\libffi-7.dll',
+   'BINARY'),
+  ('python3.dll',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application Data\\Programs\\Python\\Python310\\python3.dll',
+   'BINARY'),
+  ('PyQt6\\Qt6\\bin\\Qt6WebChannel.dll',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\site-packages\\PyQt6\\Qt6\\bin\\Qt6WebChannel.dll',
+   'BINARY'),
+  ('PyQt6\\Qt6\\bin\\Qt6Core.dll',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\site-packages\\PyQt6\\Qt6\\bin\\Qt6Core.dll',
+   'BINARY'),
+  ('PyQt6\\Qt6\\bin\\Qt6WebEngineWidgets.dll',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\site-packages\\PyQt6\\Qt6\\bin\\Qt6WebEngineWidgets.dll',
+   'BINARY'),
+  ('PyQt6\\Qt6\\bin\\Qt6Gui.dll',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\site-packages\\PyQt6\\Qt6\\bin\\Qt6Gui.dll',
+   'BINARY'),
+  ('PyQt6\\Qt6\\bin\\Qt6Widgets.dll',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\site-packages\\PyQt6\\Qt6\\bin\\Qt6Widgets.dll',
+   'BINARY'),
+  ('PyQt6\\Qt6\\bin\\Qt6WebEngineCore.dll',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\site-packages\\PyQt6\\Qt6\\bin\\Qt6WebEngineCore.dll',
+   'BINARY'),
+  ('PyQt6\\Qt6\\bin\\MSVCP140.dll',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\site-packages\\PyQt6\\Qt6\\bin\\MSVCP140.dll',
+   'BINARY'),
+  ('PyQt6\\Qt6\\bin\\Qt6PrintSupport.dll',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\site-packages\\PyQt6\\Qt6\\bin\\Qt6PrintSupport.dll',
+   'BINARY'),
+  ('PyQt6\\Qt6\\bin\\Qt6Network.dll',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\site-packages\\PyQt6\\Qt6\\bin\\Qt6Network.dll',
+   'BINARY'),
+  ('PyQt6\\Qt6\\bin\\MSVCP140_2.dll',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\site-packages\\PyQt6\\Qt6\\bin\\MSVCP140_2.dll',
+   'BINARY'),
+  ('PyQt6\\Qt6\\bin\\Qt6Qml.dll',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\site-packages\\PyQt6\\Qt6\\bin\\Qt6Qml.dll',
+   'BINARY'),
+  ('PyQt6\\Qt6\\bin\\VCRUNTIME140.dll',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\site-packages\\PyQt6\\Qt6\\bin\\VCRUNTIME140.dll',
+   'BINARY'),
+  ('PyQt6\\Qt6\\bin\\VCRUNTIME140_1.dll',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\site-packages\\PyQt6\\Qt6\\bin\\VCRUNTIME140_1.dll',
+   'BINARY'),
+  ('PyQt6\\Qt6\\bin\\MSVCP140_1.dll',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\site-packages\\PyQt6\\Qt6\\bin\\MSVCP140_1.dll',
+   'BINARY'),
+  ('PyQt6\\Qt6\\bin\\Qt6QuickWidgets.dll',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\site-packages\\PyQt6\\Qt6\\bin\\Qt6QuickWidgets.dll',
+   'BINARY'),
+  ('PyQt6\\Qt6\\bin\\Qt6Quick.dll',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\site-packages\\PyQt6\\Qt6\\bin\\Qt6Quick.dll',
+   'BINARY'),
+  ('PyQt6\\Qt6\\bin\\Qt6Positioning.dll',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\site-packages\\PyQt6\\Qt6\\bin\\Qt6Positioning.dll',
+   'BINARY'),
+  ('PyQt6\\Qt6\\bin\\Qt6OpenGL.dll',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\site-packages\\PyQt6\\Qt6\\bin\\Qt6OpenGL.dll',
+   'BINARY'),
+  ('PyQt6\\Qt6\\bin\\Qt6QmlMeta.dll',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\site-packages\\PyQt6\\Qt6\\bin\\Qt6QmlMeta.dll',
+   'BINARY'),
+  ('PyQt6\\Qt6\\bin\\Qt6QmlModels.dll',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\site-packages\\PyQt6\\Qt6\\bin\\Qt6QmlModels.dll',
+   'BINARY'),
+  ('PyQt6\\Qt6\\bin\\Qt6QmlWorkerScript.dll',
+   'Z:\\home\\iaiaia\\.wine\\drive_c\\users\\iaiaia\\Local '
+   'Settings\\Application '
+   'Data\\Programs\\Python\\Python310\\lib\\site-packages\\PyQt6\\Qt6\\bin\\Qt6QmlWorkerScript.dll',
+   'BINARY'),
+  ('base_library.zip',
+   'Z:\\home\\iaiaia\\Documentos\\Programacao\\Python\\ArduBlocks\\ardublock_studio_new\\build\\ArduBlockStudio\\base_library.zip',
+   'DATA')],
+ 'python310.dll',
+ False,
+ False,
+ False,
+ [],
+ None,
+ None,
+ None)
