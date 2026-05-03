@@ -1,0 +1,336 @@
+"""PDF Export functionality for ArduBlock Studio."""
+import json
+import tempfile
+from pathlib import Path
+from datetime import datetime
+from typing import Dict, Any
+import subprocess
+import sys
+
+
+class PDFExporter:
+    """Export Arduino projects to PDF format."""
+    
+    def __init__(self):
+        self.temp_dir = Path(tempfile.mkdtemp(prefix="ardublock_pdf_"))
+        self.has_weasyprint = self._check_weasyprint()
+    
+    def _check_weasyprint(self) -> bool:
+        """Check if weasyprint is available for PDF generation."""
+        try:
+            import weasyprint
+            return True
+        except ImportError:
+            return False
+    
+    def export_project(self, workspace_xml: str, arduino_code: str, 
+                       project_name: str, blocks_info: Dict) -> bytes:
+        """Generate PDF from project data."""
+        
+        html_content = self._generate_html(workspace_xml, arduino_code, 
+                                            project_name, blocks_info)
+        
+        if self.has_weasyprint:
+            return self._generate_pdf_weasyprint(html_content)
+        else:
+            return self._generate_pdf_fallback(html_content)
+    
+    def _generate_html(self, workspace_xml: str, code: str, 
+                       name: str, blocks_info: Dict) -> str:
+        """Generate HTML report for the project."""
+        
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        block_count = blocks_info.get('total_blocks', 0)
+        categories_used = blocks_info.get('categories', {})
+        
+        # Generate block visual representation
+        blocks_html = self._generate_blocks_visual(workspace_xml)
+        
+        return f'''<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>{name} - ArduBlock Studio Report</title>
+<style>
+    @page {{
+        size: A4;
+        margin: 2cm;
+        @top-center {{
+            content: "ArduBlock Studio - Project Report";
+            font-family: 'Courier New', monospace;
+            font-size: 10pt;
+        }}
+        @bottom-center {{
+            content: "Page " counter(page) " of " counter(pages);
+            font-size: 9pt;
+        }}
+    }}
+    
+    body {{
+        font-family: 'Segoe UI', 'Nunito', Arial, sans-serif;
+        line-height: 1.5;
+        color: #1a1a2e;
+        background: white;
+    }}
+    
+    h1 {{
+        color: #00d2ff;
+        border-bottom: 3px solid #00d2ff;
+        padding-bottom: 10px;
+        font-family: 'Orbitron', monospace;
+    }}
+    
+    h2 {{
+        color: #ff5ecc;
+        margin-top: 25px;
+        border-left: 4px solid #ff5ecc;
+        padding-left: 15px;
+    }}
+    
+    .header {{
+        text-align: center;
+        margin-bottom: 30px;
+        padding: 20px;
+        background: linear-gradient(135deg, #f0f4ff, #e8ecf4);
+        border-radius: 10px;
+    }}
+    
+    .project-info {{
+        background: #f5f7fc;
+        padding: 15px;
+        border-radius: 8px;
+        margin: 20px 0;
+    }}
+    
+    .info-grid {{
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }}
+    
+    .info-item {{
+        padding: 8px;
+        background: white;
+        border-radius: 5px;
+    }}
+    
+    .info-label {{
+        font-weight: bold;
+        color: #00d2ff;
+    }}
+    
+    .code-section {{
+        background: #0d1117;
+        color: #cdd9e5;
+        padding: 15px;
+        border-radius: 8px;
+        font-family: 'Fira Code', 'Courier New', monospace;
+        font-size: 9pt;
+        overflow-x: auto;
+        margin: 20px 0;
+    }}
+    
+    .code-section pre {{
+        margin: 0;
+        white-space: pre-wrap;
+        word-wrap: break-word;
+    }}
+    
+    .blocks-grid {{
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 10px;
+        margin: 15px 0;
+    }}
+    
+    .block-category {{
+        background: #f8f9fa;
+        border-left: 3px solid;
+        padding: 10px;
+        margin: 5px 0;
+        border-radius: 4px;
+    }}
+    
+    .stats {{
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+        margin: 20px 0;
+    }}
+    
+    .stat-card {{
+        text-align: center;
+        padding: 15px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border-radius: 10px;
+        min-width: 100px;
+    }}
+    
+    .stat-number {{
+        font-size: 28px;
+        font-weight: bold;
+    }}
+    
+    .stat-label {{
+        font-size: 12px;
+        opacity: 0.9;
+    }}
+    
+    .footer {{
+        text-align: center;
+        margin-top: 40px;
+        padding-top: 20px;
+        border-top: 1px solid #ddd;
+        font-size: 9pt;
+        color: #666;
+    }}
+    
+    @media print {{
+        body {{
+            margin: 0;
+            padding: 0;
+        }}
+        .no-print {{
+            display: none;
+        }}
+    }}
+</style>
+</head>
+<body>
+
+<div class="header">
+    <h1>📟 {name}</h1>
+    <p>Generated by ArduBlock Studio - Visual Arduino Programming IDE</p>
+</div>
+
+<div class="project-info">
+    <h2>📋 Project Information</h2>
+    <div class="info-grid">
+        <div class="info-item"><span class="info-label">Date:</span> {timestamp}</div>
+        <div class="info-item"><span class="info-label">Total Blocks:</span> {block_count}</div>
+        <div class="info-item"><span class="info-label">Categories Used:</span> {', '.join(categories_used.keys()) if categories_used else 'None'}</div>
+        <div class="info-item"><span class="info-label">Lines of Code:</span> {len(code.splitlines())}</div>
+    </div>
+</div>
+
+<div class="stats">
+    {self._generate_stats_html(blocks_info)}
+</div>
+
+<h2>🧩 Blocks Diagram</h2>
+<div class="blocks-grid">
+    {blocks_html}
+</div>
+
+<h2>💻 Generated Arduino Code</h2>
+<div class="code-section">
+    <pre>{self._escape_html(code)}</pre>
+</div>
+
+<h2>📊 Block Statistics</h2>
+<table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
+    <thead>
+        <tr><th style="border: 1px solid #ddd; padding: 8px; background: #00d2ff; color: white;">Category</th>
+            <th style="border: 1px solid #ddd; padding: 8px; background: #00d2ff; color: white;">Blocks Used</th>
+        </tr>
+    </thead>
+    <tbody>
+        {self._generate_category_table(categories_used)}
+    </tbody>
+</table>
+
+<div class="footer">
+    <p>ArduBlock Studio - Making Arduino Programming Visual and Fun!</p>
+    <p>This report was automatically generated. For more information, visit the ArduBlock Studio website.</p>
+</div>
+
+</body>
+</html>'''
+    
+    def _generate_stats_html(self, blocks_info: Dict) -> str:
+        """Generate statistics HTML cards."""
+        stats = blocks_info.get('stats', {})
+        return f'''
+            <div class="stat-card">
+                <div class="stat-number">{blocks_info.get('total_blocks', 0)}</div>
+                <div class="stat-label">Total Blocks</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">{stats.get('digital_pins', 0)}</div>
+                <div class="stat-label">Digital Pins</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">{stats.get('analog_pins', 0)}</div>
+                <div class="stat-label">Analog Pins</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">{stats.get('variables', 0)}</div>
+                <div class="stat-label">Variables</div>
+            </div>
+        '''
+    
+    def _generate_category_table(self, categories: Dict) -> str:
+        """Generate HTML table rows for categories."""
+        rows = []
+        for category, count in categories.items():
+            rows.append(f'''
+                <tr>
+                    <td style="border: 1px solid #ddd; padding: 8px;">{category}</td>
+                    <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">{count}</td>
+                </tr>
+            ''')
+        return ''.join(rows) if rows else '<tr><td colspan="2" style="text-align: center;">No blocks found</td></tr>'
+    
+    def _generate_blocks_visual(self, workspace_xml: str) -> str:
+        """Generate visual representation of blocks."""
+        # Simple block representation
+        return '''
+            <div class="block-category" style="border-left-color: #c97a1e;">
+                <strong>🔧 Structure Blocks</strong>
+                <div>Program, Setup, Loop, Comments</div>
+            </div>
+            <div class="block-category" style="border-left-color: #1a5eb5;">
+                <strong>📟 Digital I/O</strong>
+                <div>pinMode, digitalWrite, digitalRead</div>
+            </div>
+            <div class="block-category" style="border-left-color: #0a7a6e;">
+                <strong>📊 Analog I/O</strong>
+                <div>analogWrite, analogRead</div>
+            </div>
+        '''
+    
+    def _generate_pdf_weasyprint(self, html_content: str) -> bytes:
+        """Generate PDF using weasyprint library."""
+        try:
+            import weasyprint
+            from weasyprint import HTML, CSS
+            
+            html_file = self.temp_dir / "report.html"
+            html_file.write_text(html_content, encoding="utf-8")
+            
+            # Generate PDF
+            pdf = HTML(str(html_file)).write_pdf()
+            return pdf
+            
+        except Exception as e:
+            print(f"WeasyPrint error: {e}")
+            return self._generate_pdf_fallback(html_content)
+    
+    def _generate_pdf_fallback(self, html_content: str) -> bytes:
+        """Fallback PDF generation using browser print simulation."""
+        # Return HTML as fallback (can be printed to PDF by user)
+        return html_content.encode('utf-8')
+    
+    def _escape_html(self, text: str) -> str:
+        """Escape HTML special characters."""
+        import html
+        return html.escape(text)
+    
+    def cleanup(self):
+        """Clean up temporary files."""
+        import shutil
+        try:
+            shutil.rmtree(self.temp_dir, ignore_errors=True)
+        except OSError:
+            pass

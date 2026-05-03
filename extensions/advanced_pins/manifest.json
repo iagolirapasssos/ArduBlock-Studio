@@ -1,0 +1,17 @@
+{
+  "id": "advanced_pins",
+  "name": {
+    "en": "Advanced Pins",
+    "pt": "Pinos Avançados"
+  },
+  "version": "1.1.0",
+  "description": {
+    "en": "Digital and analog pins with variable/expression support",
+    "pt": "Pinos digitais e analógicos com suporte a variáveis e expressões"
+  },
+  "author": "ArduBlock Studio Team",
+  "license": "MIT",
+  "category": "Pins",
+  "icon": "🔌",
+  "color": "#1a5eb5"
+}

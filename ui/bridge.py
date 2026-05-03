@@ -9,6 +9,19 @@ from core.boards import BOARDS_DATABASE
 from config.permissions import PermissionManager
 from i18n.translations import Translations
 
+# Import extension system (corrigido)
+try:
+    from extensions.manager import DynamicExtensionManager
+except ImportError:
+    DynamicExtensionManager = None
+    print("[WARN] Extension system not available")
+
+try:
+    from extensions.api import ExtensionAPI
+except ImportError:
+    ExtensionAPI = None
+    print("[WARN] Extension API not available")
+
 
 class Bridge(QObject):
     """Bridge between Python backend and JavaScript frontend."""
@@ -18,7 +31,7 @@ class Bridge(QObject):
     compileResult = pyqtSignal(str)
     uploadResult = pyqtSignal(str)
     logMsg = pyqtSignal(str)
-    languageChanged = pyqtSignal(str)  # Para enviar traduções atualizadas
+    languageChanged = pyqtSignal(str)
     
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -26,11 +39,63 @@ class Bridge(QObject):
         self.perm_manager = PermissionManager()
         self._serial_monitors = []
         self.tr = Translations()
+        self._current_language = "en"
+        self.parent_window = parent
+        
+        # Initialize extension system
+        self.ext_manager = None
+        self.ext_api = None
+        self._init_extensions()
+    
+    def _init_extensions(self):
+        """Initialize extension system."""
+        if DynamicExtensionManager and ExtensionAPI:
+            try:
+                self.ext_api = ExtensionAPI(workspace=None, bridge=self)
+                self.ext_manager = DynamicExtensionManager(api=self.ext_api)
+                print("[EXTENSIONS] Extension system initialized")
+            except Exception as e:
+                print(f"[EXTENSIONS] Failed to initialize: {e}")
     
     def set_cli(self, cli: ArduinoCLI):
         """Set the ArduinoCLI instance after initialization."""
         self.cli = cli
     
+    @pyqtSlot(str)
+    def setProgrammer(self, programmer_id: str):
+        """Set the programmer for upload."""
+        if self.cli:
+            self.cli.set_programmer(programmer_id)
+            self.logMsg.emit(f"[PROG] Programmer set to: {programmer_id or 'Default'}")
+
+    @pyqtSlot(result=str)
+    def getProgrammers(self) -> str:
+        """Get list of available programmers."""
+        if self.cli:
+            return json.dumps(self.cli.get_programmers())
+        return json.dumps([])
+
+    @pyqtSlot(str, str, str, str)
+    def upload(self, code: str, fqbn: str, port: str, programmer: str = ""):
+        """Upload code to Arduino board with optional programmer."""
+        if not self.cli:
+            self.logMsg.emit("[ERROR] ArduinoCLI not initialized")
+            return
+            
+        def _run():
+            self.logMsg.emit("[UPLOAD] Sending to board...")
+            self.perm_manager.grant_port_permissions(port)
+            ok, msg = self.cli.upload(code, fqbn, port, programmer)
+            self.uploadResult.emit(json.dumps({"ok": ok, "msg": msg}))
+        
+        threading.Thread(target=_run, daemon=True).start()
+    
+    @pyqtSlot(str)
+    def injectJavaScript(self, js_code: str):
+        """Inject JavaScript code into the workspace."""
+        if self.parent_window and hasattr(self.parent_window, 'view'):
+            self.parent_window.view.page().runJavaScript(js_code)
+        
     @pyqtSlot()
     def openLibraryManager(self):
         """Open the library manager dialog."""
@@ -51,16 +116,41 @@ class Bridge(QObject):
         except Exception as e:
             self.logMsg.emit(f"[LIB] Error: {e}")
 
+    @pyqtSlot()
+    def openExtensionManager(self):
+        """Open extension manager dialog."""
+        if self.parent_window and hasattr(self.parent_window, 'open_extension_manager'):
+            self.parent_window.open_extension_manager()
+        else:
+            self.logMsg.emit("[EXTENSIONS] Cannot open manager - window not available")
+
+    @pyqtSlot(str)
+    def registerBlock(self, block_def_json: str):
+        """Register a new block from extension."""
+        try:
+            block_def = json.loads(block_def_json)
+            if self.ext_api:
+                # TODO: Implement block registration
+                self.logMsg.emit(f"[EXTENSIONS] Registering block: {block_def.get('name', 'unknown')}")
+        except Exception as e:
+            self.logMsg.emit(f"[EXTENSIONS] Error registering block: {e}")
+
     @pyqtSlot(str)
     def setLanguage(self, lang: str):
         """Change the application language."""
         print(f"[Bridge] Changing language to: {lang}")
+        self._current_language = lang
         self.tr.language = lang
         
+        # Get all translations for current language
+        translations = self.tr.get_all()
+        translations_json = json.dumps(translations)
+        
+        print(f"[Bridge] Sending translations: {list(translations.keys())[:5]}...")
+        
         # Send updated translations to JavaScript
-        translations_json = json.dumps(self.tr.get_all())
         self.languageChanged.emit(translations_json)
-        self.logMsg.emit(f"[LANG] Language changed to: {lang}")
+        self.logMsg.emit(f"[LANG] Language changed to: {lang.upper()}")
 
     @pyqtSlot(result=str)
     def getLanguage(self) -> str:

@@ -1,7 +1,6 @@
 """Blockly HTML template builder with full Blockly integration."""
 from i18n.translations import Translations
 
-
 def get_blockly_html(translations: Translations) -> str:
     """Generate the complete Blockly HTML interface with translations."""
     
@@ -303,6 +302,15 @@ select:focus {{ border-color: var(--accent2); box-shadow: 0 0 6px rgba(255,94,20
 
   <div class="sep"></div>
 
+  <div class="ctrl-group">
+    <span class="ctrl-label">Programmer</span>
+    <select id="programmerSelect" onchange="onProgrammerChange()">
+      <option value="">-- Default --</option>
+    </select>
+  </div>
+
+  <div class="sep"></div>
+
   <button class="btn btn-compile" onclick="doCompile()">
     <span class="material-icons">build</span> {translations.get('btn_verify')}
   </button>
@@ -475,6 +483,45 @@ select:focus {{ border-color: var(--accent2); box-shadow: 0 0 6px rgba(255,94,20
 <script>
 'use strict';
 
+function loadProgrammers() {{
+    if (!pyBridge || typeof pyBridge.getProgrammers !== 'function') return;
+    pyBridge.getProgrammers(programmersJson => {{
+        try {{
+            const programmers = JSON.parse(programmersJson);
+            const sel = document.getElementById('programmerSelect');
+            sel.innerHTML = '<option value="">-- Default --</option>';
+            programmers.forEach(prog => {{
+                const opt = document.createElement('option');
+                opt.value = prog.id;
+                opt.textContent = prog.name;
+                sel.appendChild(opt);
+            }});
+        }} catch(e) {{
+            console.error('Error loading programmers:', e);
+        }}
+    }});
+}}
+
+function onProgrammerChange() {{
+    const programmer = document.getElementById('programmerSelect').value;
+    if (pyBridge && typeof pyBridge.setProgrammer === 'function') {{
+        pyBridge.setProgrammer(programmer);
+    }}
+    log('Programmer: ' + (programmer || 'Default'), 'info');
+}}
+
+function doUpload() {{
+    if (!pyBridge) return;
+    const fqbn = document.getElementById('boardSelect').value;
+    const port = document.getElementById('portSelect').value;
+    const programmer = document.getElementById('programmerSelect').value;
+    if (!fqbn || !port) {{
+        log('Select board and port!', 'err');
+        return;
+    }}
+    pyBridge.upload(getGeneratedCode(), fqbn, port, programmer);
+}}
+
 function openLibraryManager() {{
   if (pyBridge && typeof pyBridge.openLibraryManager === 'function') {{
     pyBridge.openLibraryManager();
@@ -492,20 +539,16 @@ function updateTranslations(translationsJson) {{
   try {{
     currentTranslations = JSON.parse(translationsJson);
     console.log('Translations updated:', currentTranslations);
-    
-    // Update toolbox category names
     if (workspace && workspace.getToolbox()) {{
       updateToolboxCategories();
     }}
-    
-    log('Translations updated for: ' + currentLanguage.toUpperCase(), 'ok');
+    log('Language changed to: ' + (currentLanguage === 'pt' ? 'Português' : 'English'), 'ok');
   }} catch(e) {{
     console.error('Error updating translations:', e);
   }}
 }}
 
 function updateToolboxCategories() {{
-  // Update category names in the toolbox
   const categoryMap = {{
     'category_structure': 'Structure',
     'category_functions': 'Functions', 
@@ -521,19 +564,43 @@ function updateToolboxCategories() {{
     'category_servo': 'Servo Motor',
     'category_sensors': 'Sensors'
   }};
+
+  // Declaração global antecipada do ArduinoGen
+  window.ArduinoGen = null;
+  window._ArduinoGenReady = false;
+
+  // Aguardar definição do ArduinoGen
+  if (typeof ArduinoGen !== 'undefined' && ArduinoGen) {{
+      window._ArduinoGenReady = true;
+      if (window.dispatchEvent) {{
+          window.dispatchEvent(new CustomEvent('ArduinoGenReady'));
+      }}
+  }} else {{
+      // Monkey patch para capturar quando ArduinoGen for definido
+      var _arduinoGenSetter = null;
+      Object.defineProperty(window, 'ArduinoGen', {{
+          configurable: true,
+          enumerable: true,
+          get: function() {{ return window._arduinoGenValue; }},
+          set: function(val) {{
+              window._arduinoGenValue = val;
+              window._ArduinoGenReady = true;
+              if (window.dispatchEvent) {{
+                  window.dispatchEvent(new CustomEvent('ArduinoGenReady'));
+              }}
+          }}
+      }});
+  }}
   
   Object.entries(categoryMap).forEach(([key, defaultName]) => {{
     const translatedName = currentTranslations[key] || defaultName;
-    // Update category in toolbox
     const categories = document.querySelectorAll('.blocklyTreeRow');
     categories.forEach(cat => {{
       const label = cat.querySelector('.blocklyTreeLabel');
       if (label) {{
-        Object.entries(categoryMap).forEach(([k, d]) => {{
-          if (label.textContent === d || label.textContent === currentTranslations[k]) {{
-            label.textContent = translatedName;
-          }}
-        }});
+        if (label.textContent === defaultName || label.textContent === currentTranslations[key]) {{
+          label.textContent = translatedName;
+        }}
       }}
     }});
   }});
@@ -549,22 +616,19 @@ function changeLanguage(lang) {{
     pyBridge.setLanguage(lang);
   }}
   
-  log('Language: ' + lang.toUpperCase(), 'info');
+  log('Changing to: ' + lang.toUpperCase(), 'info');
 }}
 
 // ============================================================
-// POLYFILL: Blockly v11.2 → v13 compatibility
-// Fix deprecated getSizeWithDisplay()
+// POLYFILL: Blockly v11.2 compatibility
 // ============================================================
 (function() {{
   if (typeof Blockly !== 'undefined' && Blockly.utils && Blockly.utils.style) {{
-    // Ensure getSize() exists (v13+)
     if (!Blockly.utils.style.getSize) {{
       Blockly.utils.style.getSize = function(element) {{
         if (Blockly.utils.style.getSizeWithDisplay) {{
           return Blockly.utils.style.getSizeWithDisplay(element);
         }}
-        // Fallback for when getSizeWithDisplay is completely removed
         var style = window.getComputedStyle(element);
         if (style.display === 'none') {{
           var original = element.style.display;
@@ -582,43 +646,22 @@ function changeLanguage(lang) {{
         }};
       }};
     }}
-    
-    // Redirect getSizeWithDisplay to getSize to avoid deprecation warnings
-    if (Blockly.utils.style.getSizeWithDisplay) {{
-      var originalGetSizeWithDisplay = Blockly.utils.style.getSizeWithDisplay;
-      Blockly.utils.style.getSizeWithDisplay = function(element) {{
-        // Silently redirect to getSize()
-        return Blockly.utils.style.getSize(element);
-      }};
-    }}
-  }}
-  
-  // Suppress deprecation warnings in console
-  if (typeof Blockly !== 'undefined' && Blockly.utils && Blockly.utils.deprecation) {{
-    var originalWarn = Blockly.utils.deprecation.warn;
-    Blockly.utils.deprecation.warn = function(message) {{
-      // Only suppress getSizeWithDisplay warnings
-      if (message && message.indexOf('getSizeWithDisplay') === -1) {{
-        originalWarn.call(Blockly.utils.deprecation, message);
-      }}
-    }};
   }}
 }})();
 
 // ============================================================
 // GLOBAL STATE
 // ============================================================
-
 let workspace = null;
 let pyBridge  = null;
 let currentFQBN = 'arduino:avr:uno';
 let allBoards = [];
 let connectedBoards = [];
 let codeUpdateTimer = null;
-let currentLanguage = '{translations.language}';
+let currentLanguage = 'en';
 
 // ============================================================
-// CUSTOM BLOCK DEFINITIONS (Blockly 11 compatible)
+// CUSTOM BLOCK DEFINITIONS
 // ============================================================
 
 // -- Main Program Block --
@@ -654,8 +697,6 @@ Blockly.Blocks['procedures_defnoreturn'] = {{
     this.appendStatementInput('STACK').setCheck(null).appendField("do:");
     this.setMutator(new Blockly.icons.MutatorIcon(['procedures_mutatorarg'], this));
     this.arguments_ = [];
-    // REMOVIDO: this.setPreviousStatement(true);
-    // REMOVIDO: this.setNextStatement(true);
     this.setTooltip("Define a function without return value. Goes outside setup/loop.");
   }},
   
@@ -731,8 +772,6 @@ Blockly.Blocks['procedures_defreturn'] = {{
     this.appendStatementInput('STACK').setCheck(null).appendField("do:");
     this.setMutator(new Blockly.icons.MutatorIcon(['procedures_mutatorarg'], this));
     this.arguments_ = [];
-    // REMOVIDO: this.setPreviousStatement(true);
-    // REMOVIDO: this.setNextStatement(true);
     this.setTooltip("Define a function with return value. Goes outside setup/loop.");
   }},
   updateParams_: Blockly.Blocks['procedures_defnoreturn'].updateParams_,
@@ -1211,8 +1250,7 @@ Blockly.Blocks['ab_bool'] = {{
   }}
 }};
 
-// -- Declare Variable --
-// -- Global Variable Declaration (NOT stackable - goes outside setup/loop) --
+// -- Global Variable Declaration --
 Blockly.Blocks['ab_global_var'] = {{
   init: function() {{
     this.setColour('#c97a1e');
@@ -1227,12 +1265,11 @@ Blockly.Blocks['ab_global_var'] = {{
         .setCheck(null)
         .appendField("=");
     this.setInputsInline(true);
-    // NO previous/next - this is a global declaration
     this.setTooltip("Create a global variable (accessible everywhere)");
   }}
 }};
 
-// -- Local Variable Declaration (stackable - inside setup/loop/functions) --
+// -- Local Variable Declaration --
 Blockly.Blocks['ab_local_var'] = {{
   init: function() {{
     this.setColour('#c97a1e');
@@ -1253,7 +1290,7 @@ Blockly.Blocks['ab_local_var'] = {{
   }}
 }};
 
-// -- Set Variable (stackable - changes existing variable value) --
+// -- Set Variable --
 Blockly.Blocks['ab_var_set'] = {{
   init: function() {{
     this.setColour('#c97a1e');
@@ -1268,7 +1305,7 @@ Blockly.Blocks['ab_var_set'] = {{
   }}
 }};
 
-// -- Get Variable (value block - returns variable value) --
+// -- Get Variable --
 Blockly.Blocks['ab_var_get'] = {{
   init: function() {{
     this.setColour('#c97a1e');
@@ -1437,7 +1474,6 @@ function generateArduinoCode(ws) {{
   
   let setupCode = '';
   let loopCode = '';
-  let globalDeclarations = '';  // Para variáveis globais
 
   ws.getTopBlocks(true).forEach(b => {{
     if (b.type === 'ab_program') {{
@@ -1446,12 +1482,10 @@ function generateArduinoCode(ws) {{
     }} else if (b.type === 'procedures_defnoreturn' || b.type === 'procedures_defreturn') {{
       ArduinoGen._funcs += ArduinoGen.blockToCode(b) + '\\n';
     }} else if (b.type === 'ab_global_var') {{
-      // Generate global variable declaration
-      ArduinoGen.blockToCode(b); // This populates ArduinoGen._globals
+      ArduinoGen.blockToCode(b);
     }}
   }});
 
-  // Collect global variables
   const globalVars = Object.values(ArduinoGen._globals).filter(v => v.startsWith('int ') || v.startsWith('float ') || v.startsWith('bool ') || v.startsWith('String ') || v.startsWith('long ') || v.startsWith('byte ') || v.startsWith('char '));
   const otherGlobals = Object.values(ArduinoGen._globals).filter(v => !globalVars.includes(v));
   
@@ -1470,7 +1504,6 @@ function gen(type, fn) {{ ArduinoGen.forBlock[type] = fn; }}
 
 gen('ab_program', (b, g) => '');
 gen('ab_comment', (b, g) => `// ${{b.getFieldValue('TEXT')}}\\n`);
-
 gen('procedures_defnoreturn', (b, g) => {{
   const name = b.getFieldValue('NAME');
   const body = g.statementToCode(b, 'STACK');
@@ -1482,7 +1515,6 @@ gen('procedures_defnoreturn', (b, g) => {{
   }}
   return `void ${{name}}(${{params.join(', ')}}) {{\\n${{body}}}}\\n`;
 }});
-
 gen('procedures_defreturn', (b, g) => {{
   const name = b.getFieldValue('NAME');
   const rettype = b.getFieldValue('RETTYPE');
@@ -1495,7 +1527,6 @@ gen('procedures_defreturn', (b, g) => {{
   }}
   return `${{rettype}} ${{name}}(${{params.join(', ')}}) {{\\n${{body}}}}\\n`;
 }});
-
 gen('procedures_callnoreturn', (b, g) => {{
   const name = b.getFieldValue('NAME');
   let args = [];
@@ -1506,12 +1537,10 @@ gen('procedures_callnoreturn', (b, g) => {{
   }}
   return `${{name}}(${{args.join(', ')}});\\n`;
 }});
-
 gen('ab_return', (b, g) => {{
   const v = g.valueToCode(b, 'VAL', g.ORDER_NONE) || '';
   return `return${{v ? ' ' + v : ''}};\\n`;
 }});
-
 gen('ab_pin_mode', (b, g) => `pinMode(${{b.getFieldValue('PIN')}}, ${{b.getFieldValue('MODE')}});\\n`);
 gen('ab_digital_write', (b, g) => `digitalWrite(${{b.getFieldValue('PIN')}}, ${{b.getFieldValue('STATE')}});\\n`);
 gen('ab_digital_read', (b, g) => [`digitalRead(${{b.getFieldValue('PIN')}})`, g.ORDER_ATOMIC]);
@@ -1529,7 +1558,6 @@ gen('ab_serial_print', (b, g) => `Serial.print(${{g.valueToCode(b, 'TEXT', g.ORD
 gen('ab_serial_println', (b, g) => `Serial.println(${{g.valueToCode(b, 'TEXT', g.ORDER_NONE) || '""'}});\\n`);
 gen('ab_serial_available', (b, g) => [`Serial.available()`, g.ORDER_ATOMIC]);
 gen('ab_serial_read', (b, g) => [`Serial.read()`, g.ORDER_ATOMIC]);
-
 gen('controls_if', (b, g) => {{
   let code = `if (${{g.valueToCode(b, 'IF0', g.ORDER_NONE) || 'false'}}) {{\\n${{g.statementToCode(b, 'DO0')}}}}`;
   for (let i = 1; i <= (b.elseifCount_ || 0); i++) {{
@@ -1538,7 +1566,6 @@ gen('controls_if', (b, g) => {{
   if (b.elseCount_) code += ` else {{\\n${{g.statementToCode(b, 'ELSE')}}}}`;
   return code + '\\n';
 }});
-
 gen('ab_while', (b, g) => `while (${{g.valueToCode(b, 'COND', g.ORDER_NONE) || 'false'}}) {{\\n${{g.statementToCode(b, 'DO')}}}}\\n`);
 gen('ab_for', (b, g) => {{
   const v = b.getFieldValue('VAR'), fr = b.getFieldValue('FROM'), to = b.getFieldValue('TO');
@@ -1560,32 +1587,24 @@ gen('ab_logic_op', (b, g) => {{
 }});
 gen('ab_not', (b, g) => [`!${{g.valueToCode(b, 'BOOL', g.ORDER_UNARY) || 'false'}}`, g.ORDER_UNARY]);
 gen('ab_bool', (b, g) => [`${{b.getFieldValue('BOOL')}}`, g.ORDER_ATOMIC]);
-// Global variable declaration - generates code at top of file
 gen('ab_global_var', (b, g) => {{
   const type = b.getFieldValue('TYPE');
   const name = b.getFieldValue('NAME');
   const value = g.valueToCode(b, 'VALUE', g.ORDER_NONE) || '0';
-  // Store in globals to be placed at top
   ArduinoGen._globals[`global_${{name}}`] = `${{type}} ${{name}} = ${{value}};`;
-  return ''; // No inline code - handled in generateArduinoCode
+  return '';
 }});
-
-// Local variable declaration - generates inline code
 gen('ab_local_var', (b, g) => {{
   const type = b.getFieldValue('TYPE');
   const name = b.getFieldValue('NAME');
   const value = g.valueToCode(b, 'VALUE', g.ORDER_NONE) || '0';
   return `${{type}} ${{name}} = ${{value}};\\n`;
 }});
-
-// Set variable value
 gen('ab_var_set', (b, g) => {{
   const name = b.getFieldValue('NAME');
   const value = g.valueToCode(b, 'VALUE', g.ORDER_NONE) || '0';
   return `${{name}} = ${{value}};\\n`;
 }});
-
-// Get variable value
 gen('ab_var_get', (b, g) => {{
   return [`${{b.getFieldValue('NAME')}}`, g.ORDER_ATOMIC];
 }});
@@ -1630,10 +1649,11 @@ function xmlDomToText(dom) {{
 // ============================================================
 const EXAMPLES = {{
   blink: `<xml><block type="ab_program" x="30" y="20"><statement name="SETUP"><block type="ab_pin_mode"><field name="PIN">13</field><field name="MODE">OUTPUT</field></block></statement><statement name="LOOP"><block type="ab_led_on"><field name="PIN">13</field><next><block type="ab_delay_ms"><value name="MS"><shadow type="ab_number"><field name="NUM">1000</field></shadow></value><next><block type="ab_led_off"><field name="PIN">13</field><next><block type="ab_delay_ms"><value name="MS"><shadow type="ab_number"><field name="NUM">1000</field></shadow></value></block></next></block></next></block></next></block></statement></block></xml>`,
+  traffic: `<xml><block type="ab_program" x="30" y="20"><statement name="SETUP"><block type="ab_pin_mode"><field name="PIN">12</field><field name="MODE">OUTPUT</field><next><block type="ab_pin_mode"><field name="PIN">11</field><field name="MODE">OUTPUT</field><next><block type="ab_pin_mode"><field name="PIN">10</field><field name="MODE">OUTPUT</field></block></next></block></next></block></statement><statement name="LOOP"><block type="ab_digital_write"><field name="PIN">12</field><field name="STATE">HIGH</field><next><block type="ab_delay_ms"><value name="MS"><shadow type="ab_number"><field name="NUM">5000</field></shadow></value><next><block type="ab_digital_write"><field name="PIN">12</field><field name="STATE">LOW</field><next><block type="ab_digital_write"><field name="PIN">11</field><field name="STATE">HIGH</field><next><block type="ab_delay_ms"><value name="MS"><shadow type="ab_number"><field name="NUM">2000</field></shadow></value><next><block type="ab_digital_write"><field name="PIN">11</field><field name="STATE">LOW</field><next><block type="ab_digital_write"><field name="PIN">10</field><field name="STATE">HIGH</field><next><block type="ab_delay_ms"><value name="MS"><shadow type="ab_number"><field name="NUM">5000</field></shadow></value><next><block type="ab_digital_write"><field name="PIN">10</field><field name="STATE">LOW</field><next><block type="ab_delay_ms"><value name="MS"><shadow type="ab_number"><field name="NUM">1000</field></shadow></value></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></statement></block></xml>`,
   serial: `<xml><block type="ab_program" x="30" y="20"><statement name="SETUP"><block type="ab_serial_begin"><field name="BAUD">9600</field></block></statement><statement name="LOOP"><block type="ab_serial_println"><value name="TEXT"><block type="ab_text"><field name="TEXT">Hello, ArduBlock Studio!</field></block></value><next><block type="ab_delay_sec"><value name="SEC"><shadow type="ab_number"><field name="NUM">1</field></shadow></value></block></next></block></statement></block></xml>`,
-  servo: `<xml><block type="ab_program" x="30" y="20"><statement name="SETUP"><block type="ab_servo_attach"><field name="OBJ">myServo</field><field name="PIN">9</field></block></statement><statement name="LOOP"><block type="ab_servo_write"><field name="OBJ">myServo</field><value name="ANGLE"><block type="ab_number"><field name="NUM">0</field></block></value><next><block type="ab_delay_ms"><value name="MS"><shadow type="ab_number"><field name="NUM">1000</field></shadow></value><next><block type="ab_servo_write"><field name="OBJ">myServo</field><value name="ANGLE"><block type="ab_number"><field name="NUM">90</field></block></value><next><block type="ab_delay_ms"><value name="MS"><shadow type="ab_number"><field name="NUM">1000</field></shadow></value><next><block type="ab_servo_write"><field name="OBJ">myServo</field><value name="ANGLE"><block type="ab_number"><field name="NUM">180</field></block></value><next><block type="ab_delay_ms"><value name="MS"><shadow type="ab_number"><field name="NUM">1000</field></shadow></value></block></next></block></next></block></next></block></next></block></statement></block></xml>`,
-  ultrasonic: `<xml><block type="ab_program" x="30" y="20"><statement name="SETUP"><block type="ab_serial_begin"><field name="BAUD">9600</field></block></statement><statement name="LOOP"><block type="ab_var_declare"><field name="TYPE">float</field><field name="NAME">distance</field><value name="VALUE"><block type="ab_ultrasonic"><field name="TRIG">9</field><field name="ECHO">10</field></block></value><next><block type="ab_serial_print"><value name="TEXT"><block type="ab_text"><field name="TEXT">Distance: </field></block></value><next><block type="ab_serial_print"><value name="TEXT"><block type="ab_var_get"><field name="NAME">distance</field></block></value><next><block type="ab_serial_println"><value name="TEXT"><block type="ab_text"><field name="TEXT"> cm</field></block></value><next><block type="ab_delay_ms"><value name="MS"><shadow type="ab_number"><field name="NUM">500</field></shadow></value></block></next></block></next></block></next></block></next></block></statement></block></xml>`,
-  analog: `<xml><block type="ab_program" x="30" y="20"><statement name="SETUP"><block type="ab_serial_begin"><field name="BAUD">9600</field></block></statement><statement name="LOOP"><block type="ab_var_declare"><field name="TYPE">int</field><field name="NAME">reading</field><value name="VALUE"><block type="ab_analog_read"><field name="PIN">A0</field></block></value><next><block type="ab_serial_print"><value name="TEXT"><block type="ab_text"><field name="TEXT">Sensor A0: </field></block></value><next><block type="ab_serial_println"><value name="TEXT"><block type="ab_var_get"><field name="NAME">reading</field></block></value><next><block type="ab_delay_ms"><value name="MS"><shadow type="ab_number"><field name="NUM">200</field></shadow></value></block></next></block></next></block></next></block></statement></block></xml>`,
+  servo: `<xml><block type="ab_program" x="30" y="20"><statement name="SETUP"><block type="ab_servo_attach"><field name="OBJ">myServo</field><field name="PIN">9</field></block></statement><statement name="LOOP"><block type="ab_servo_write"><field name="OBJ">myServo</field><value name="ANGLE"><block type="ab_number"><field name="NUM">0</field></block></value><next><block type="ab_delay_ms"><value name="MS"><shadow type="ab_number"><field name="NUM">1000</field></shadow></value><next><block type="ab_servo_write"><field name="OBJ">myServo</field><value name="ANGLE"><block type="ab_number"><field name="NUM">90</field></block></value><next><block type="ab_delay_ms"><value name="MS"><shadow type="ab_number"><field name="NUM">1000</field></shadow></value><next><block type="ab_servo_write"><field name="OBJ">myServo</field><value name="ANGLE"><block type="ab_number"><field name="NUM">180</field></block></value><next><block type="ab_delay_ms"><value name="MS"><shadow type="ab_number"><field name="NUM">1000</field></shadow></value></block></next></block></next></block></next></block></next></block></next></block></statement></block></xml>`,
+  ultrasonic: `<xml><block type="ab_program" x="30" y="20"><statement name="SETUP"><block type="ab_serial_begin"><field name="BAUD">9600</field></block></statement><statement name="LOOP"><block type="ab_local_var"><field name="TYPE">float</field><field name="NAME">distance</field><value name="VALUE"><block type="ab_ultrasonic"><field name="TRIG">9</field><field name="ECHO">10</field></block></value><next><block type="ab_serial_print"><value name="TEXT"><block type="ab_text"><field name="TEXT">Distance: </field></block></value><next><block type="ab_serial_print"><value name="TEXT"><block type="ab_var_get"><field name="NAME">distance</field></block></value><next><block type="ab_serial_println"><value name="TEXT"><block type="ab_text"><field name="TEXT"> cm</field></block></value><next><block type="ab_delay_ms"><value name="MS"><shadow type="ab_number"><field name="NUM">500</field></shadow></value></block></next></block></next></block></next></block></next></block></statement></block></xml>`,
+  analog: `<xml><block type="ab_program" x="30" y="20"><statement name="SETUP"><block type="ab_serial_begin"><field name="BAUD">9600</field></block></statement><statement name="LOOP"><block type="ab_local_var"><field name="TYPE">int</field><field name="NAME">reading</field><value name="VALUE"><block type="ab_analog_read"><field name="PIN">A0</field></block></value><next><block type="ab_serial_print"><value name="TEXT"><block type="ab_text"><field name="TEXT">Sensor A0: </field></block></value><next><block type="ab_serial_println"><value name="TEXT"><block type="ab_var_get"><field name="NAME">reading</field></block></value><next><block type="ab_delay_ms"><value name="MS"><shadow type="ab_number"><field name="NUM">200</field></shadow></value></block></next></block></next></block></next></block></statement></block></xml>`,
   pwm: `<xml><block type="ab_program" x="30" y="20"><statement name="LOOP"><block type="ab_for"><field name="VAR">b</field><field name="FROM">0</field><field name="TO">255</field><field name="STEP">5</field><statement name="DO"><block type="ab_pwm_set"><field name="PIN">9</field><value name="VAL"><block type="ab_var_get"><field name="NAME">b</field></block></value><next><block type="ab_delay_ms"><value name="MS"><shadow type="ab_number"><field name="NUM">20</field></shadow></value></block></next></block></statement><next><block type="ab_for"><field name="VAR">b</field><field name="FROM">255</field><field name="TO">0</field><field name="STEP">-5</field><statement name="DO"><block type="ab_pwm_set"><field name="PIN">9</field><value name="VAL"><block type="ab_var_get"><field name="NAME">b</field></block></value><next><block type="ab_delay_ms"><value name="MS"><shadow type="ab_number"><field name="NUM">20</field></shadow></value></block></next></block></statement></block></next></block></statement></block></xml>`,
   tone: `<xml><block type="ab_program" x="30" y="20"><statement name="LOOP"><block type="ab_tone"><field name="PIN">8</field><value name="FREQ"><block type="ab_number"><field name="NUM">262</field></block></value><value name="DUR"><block type="ab_number"><field name="NUM">400</field></block></value><next><block type="ab_delay_ms"><value name="MS"><shadow type="ab_number"><field name="NUM">500</field></shadow></value><next><block type="ab_tone"><field name="PIN">8</field><value name="FREQ"><block type="ab_number"><field name="NUM">330</field></block></value><value name="DUR"><block type="ab_number"><field name="NUM">400</field></block></value><next><block type="ab_delay_ms"><value name="MS"><shadow type="ab_number"><field name="NUM">500</field></shadow></value><next><block type="ab_tone"><field name="PIN">8</field><value name="FREQ"><block type="ab_number"><field name="NUM">392</field></block></value><value name="DUR"><block type="ab_number"><field name="NUM">800</field></block></value><next><block type="ab_delay_ms"><value name="MS"><shadow type="ab_number"><field name="NUM">1000</field></shadow></value></block></next></block></next></block></next></block></next></block></statement></block></xml>`,
 }};
@@ -1689,24 +1709,6 @@ function updateBlockCount() {{
 }}
 
 // ============================================================
-// LANGUAGE SWITCHING
-// ============================================================
-function changeLanguage(lang) {{
-  currentLanguage = lang;
-  
-  // Update button styles
-  document.getElementById('btnLangEN').classList.toggle('active', lang === 'en');
-  document.getElementById('btnLangPT').classList.toggle('active', lang === 'pt');
-  
-  // Notify bridge (apenas para log, sem recarregar)
-  if (pyBridge && typeof pyBridge.setLanguage === 'function') {{
-    pyBridge.setLanguage(lang);
-  }}
-  
-  log('Language: ' + lang.toUpperCase() + ' (restart to apply all changes)', 'info');
-}}
-
-// ============================================================
 // BRIDGE INITIALIZATION
 // ============================================================
 function initBridge() {{
@@ -1722,7 +1724,6 @@ function initBridge() {{
     initBlockly();
     populateBoardSelect();
     hideLoading();
-    // Set initial active button
     document.getElementById('btnLangEN').classList.add('active');
     return;
   }}
@@ -1730,13 +1731,12 @@ function initBridge() {{
   new QWebChannel(qt.webChannelTransport, ch => {{
     pyBridge = ch.objects.bridge;
     
-    // Connect signals
     if (pyBridge.boardsDetected) pyBridge.boardsDetected.connect(onBoardsDetected);
     if (pyBridge.compileResult) pyBridge.compileResult.connect(onCompileResult);
     if (pyBridge.uploadResult) pyBridge.uploadResult.connect(onUploadResult);
     if (pyBridge.logMsg) pyBridge.logMsg.connect(msg => log(msg, 'step'));
+    if (pyBridge.languageChanged) pyBridge.languageChanged.connect(updateTranslations);
     
-    // Get CLI version
     pyBridge.getCLIVersion(ver => {{
       document.getElementById('cliVer').textContent = `CLI: ${{ver}}`;
       const d = document.getElementById('cliDot'), s = document.getElementById('cliStatus');
@@ -1748,19 +1748,21 @@ function initBridge() {{
         s.textContent = 'arduino-cli not found'; 
       }}
       
-      // Get boards
       pyBridge.getAllBoards(raw => {{
         try {{ allBoards = JSON.parse(raw); }} catch(e) {{ allBoards = []; }}
         populateBoardSelect();
         initBlockly();
         detectBoards();
         hideLoading();
-        
-        // Set initial language button active (inglês padrão)
         document.getElementById('btnLangEN').classList.add('active');
-        
-        // NÃO CHAMAR setLanguage aqui - apenas definir visualmente
         currentLanguage = 'en';
+        
+        // Get initial translations
+        if (pyBridge && typeof pyBridge.getTranslations === 'function') {{
+          pyBridge.getTranslations(translationsJson => {{
+            if (translationsJson) updateTranslations(translationsJson);
+          }});
+        }}
       }});
     }});
   }});
@@ -1791,6 +1793,8 @@ function detectBoards() {{
   document.getElementById('boardDot').className = 'dot blink';
   pyBridge.detectBoards();
 }}
+
+loadProgrammers();
 
 function onBoardsDetected(json) {{
   connectedBoards = JSON.parse(json);
@@ -1834,11 +1838,7 @@ function onUploadResult(json) {{
   if (r.ok) log('Upload successful!', 'ok');
   else {{
     let errMsg = r.msg || '';
-    try {{
-      const inner = JSON.parse(errMsg.trim());
-      const stderr = inner?.output?.stderr || inner?.error || errMsg;
-      stderr.split('\\n').filter(l=>l.trim()).forEach(l => log(l, stderr.includes('stk500') ? 'warn' : 'err'));
-    }} catch(_) {{ errMsg.split('\\n').filter(l=>l.trim()).forEach(l => log(l, 'err')); }}
+    errMsg.split('\\n').filter(l=>l.trim()).forEach(l => log(l, 'err'));
   }}
 }}
 
@@ -1872,6 +1872,18 @@ function log(msg, type='info') {{
 
 function clearLog() {{ document.getElementById('log').innerHTML = ''; }}
 function hideLoading() {{ const ld = document.getElementById('loading'); ld.style.transition = 'opacity 0.5s'; ld.style.opacity = '0'; setTimeout(() => ld.style.display = 'none', 500); }}
+
+function openExtensionManager() {{
+    if (pyBridge && typeof pyBridge.openExtensionManager === 'function') {{
+        pyBridge.openExtensionManager();
+    }}
+}}
+
+// Adicionar botão na toolbar
+var extBtn = document.createElement('button');
+extBtn.className = 'btn btn-serial';
+extBtn.innerHTML = '<span class="material-icons">extension</span> Extensions';
+extBtn.onclick = openExtensionManager;
 
 window.addEventListener('DOMContentLoaded', () => {{
   initBridge();

@@ -1,0 +1,139 @@
+{
+  "id": "display_lcd",
+  "name": {
+    "en": "LCD Display",
+    "pt": "Display LCD"
+  },
+  "version": "1.0.0",
+  "description": {
+    "en": "Blocks for controlling LCD 16x2 displays",
+    "pt": "Blocos para controlar displays LCD 16x2"
+  },
+  "author": "ArduBlock Studio Team",
+  "license": "MIT",
+  "requires": ["LiquidCrystal"],
+  "website": "https://ardublock.studio/extensions/lcd",
+  "blocks": [
+    {
+      "name": "ab_lcd_begin",
+      "type": "statement",
+      "category": "LCD Display",
+      "colour": "#00acc1",
+      "inputs": [
+        {
+          "name": "RS",
+          "type": "field",
+          "label": "RS pin",
+          "default_value": "12",
+          "options": ["12", "11", "10", "9", "8", "7"]
+        },
+        {
+          "name": "EN",
+          "type": "field",
+          "label": "EN pin",
+          "default_value": "11",
+          "options": ["12", "11", "10", "9", "8", "7"]
+        },
+        {
+          "name": "D4",
+          "type": "field",
+          "label": "D4 pin",
+          "default_value": "5",
+          "options": ["5", "4", "3", "2"]
+        },
+        {
+          "name": "D5",
+          "type": "field",
+          "label": "D5 pin",
+          "default_value": "4",
+          "options": ["5", "4", "3", "2"]
+        },
+        {
+          "name": "D6",
+          "type": "field",
+          "label": "D6 pin",
+          "default_value": "3",
+          "options": ["5", "4", "3", "2"]
+        },
+        {
+          "name": "D7",
+          "type": "field",
+          "label": "D7 pin",
+          "default_value": "2",
+          "options": ["5", "4", "3", "2"]
+        }
+      ],
+      "tooltip": {
+        "en": "Initialize LCD display with specified pins",
+        "pt": "Inicializa display LCD com os pinos especificados"
+      },
+      "requires_library": "LiquidCrystal",
+      "library_url": "https://github.com/arduino-libraries/LiquidCrystal"
+    },
+    {
+      "name": "ab_lcd_print",
+      "type": "statement",
+      "category": "LCD Display",
+      "colour": "#00acc1",
+      "inputs": [
+        {
+          "name": "COL",
+          "type": "value",
+          "label": "Column",
+          "check": "Number"
+        },
+        {
+          "name": "ROW",
+          "type": "value",
+          "label": "Row",
+          "check": "Number"
+        },
+        {
+          "name": "TEXT",
+          "type": "value",
+          "label": "Text",
+          "check": "String"
+        }
+      ],
+      "tooltip": {
+        "en": "Print text at specified position on LCD",
+        "pt": "Imprime texto na posição especificada no LCD"
+      }
+    },
+    {
+      "name": "ab_lcd_clear",
+      "type": "statement",
+      "category": "LCD Display",
+      "colour": "#00acc1",
+      "inputs": [],
+      "tooltip": {
+        "en": "Clear LCD display",
+        "pt": "Limpa o display LCD"
+      }
+    },
+    {
+      "name": "ab_lcd_create_char",
+      "type": "statement",
+      "category": "LCD Display",
+      "colour": "#00acc1",
+      "inputs": [
+        {
+          "name": "NUMBER",
+          "type": "value",
+          "label": "Character number (0-7)",
+          "check": "Number"
+        },
+        {
+          "name": "DATA",
+          "type": "value",
+          "label": "Custom character data (array[8])",
+          "check": "Array"
+        }
+      ],
+      "tooltip": {
+        "en": "Create custom character for LCD",
+        "pt": "Cria caractere personalizado para o LCD"
+      }
+    }
+  ]
+}
