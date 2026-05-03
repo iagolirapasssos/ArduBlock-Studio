@@ -44,6 +44,8 @@ ArduBlock Studio is a **visual programming environment** that makes Arduino acce
 - 🎨 **Makers** prototyping ideas quickly
 - 👨‍👩‍👧 **Parents** doing STEM activities with kids
 
+<img width="1366" height="738" alt="image" src="https://github.com/user-attachments/assets/87bf7736-eddf-4d5a-ba14-1c420673a020" />
+
 ### How It Works
 
 ```
