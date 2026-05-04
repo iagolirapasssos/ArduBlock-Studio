@@ -1,6 +1,7 @@
 """Platform-specific permission management."""
 import json
 import os
+import sys
 import platform
 import subprocess
 import shutil

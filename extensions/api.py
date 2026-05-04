@@ -73,6 +73,7 @@ class ExtensionAPI:
     def flush(self):
         """
         Executa todos os JavaScripts pendentes de uma só vez.
+        Com verificação de que o Blockly está pronto.
         """
         if not self._js_buffer and not self._pending_translations:
             return
@@ -83,13 +84,24 @@ class ExtensionAPI:
         if self._js_buffer:
             combined = "\n;\n".join(self._js_buffer)
             
-            # CORREÇÃO: Usar o bridge para injetar JavaScript
+            # Verificar se Blockly existe antes de injetar
+            combined = """
+    (function() {
+        if (typeof Blockly === 'undefined') {
+            console.warn('[API] Blockly not ready, retrying in 500ms...');
+            setTimeout(arguments.callee, 500);
+            return;
+        }
+    """ + combined + "\n})();"
+            
             if self.bridge and hasattr(self.bridge, 'injectJavaScript'):
-                self.bridge.injectJavaScript(combined)
-            elif self.workspace and hasattr(self.workspace, 'runJavaScript'):
-                self.workspace.runJavaScript(combined)
+                try:
+                    self.bridge.injectJavaScript(combined)
+                    print(f"[API] Flushed {len(self._js_buffer)} JS chunks")
+                except Exception as e:
+                    print(f"[API] ERROR injecting JS: {e}")
             else:
-                print("[API] ERROR: No way to inject JavaScript!")
+                print("[API] ERROR: No bridge available for JS injection!")
 
         self._js_buffer.clear()
         self._pending_translations.clear()

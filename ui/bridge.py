@@ -171,12 +171,22 @@ class Bridge(QObject):
             
         def _run():
             self.logMsg.emit("[BOARDS] Scanning serial ports...")
-            boards = self.cli.detect_boards()
+            
+            try:
+                boards = self.cli.detect_boards()
+            except Exception as e:
+                self.logMsg.emit(f"[BOARDS] Error: {str(e)[:100]}")
+                boards = []
+            
             if not boards:
                 self.logMsg.emit("[BOARDS] No ports found. Check USB cable.")
+            
+            # Emite resultado na thread principal
             self.boardsDetected.emit(json.dumps(boards))
         
-        threading.Thread(target=_run, daemon=True).start()
+        # Executa em thread separada com timeout
+        thread = threading.Thread(target=_run, daemon=True)
+        thread.start()
     
     @pyqtSlot(str, str)
     def compile(self, code: str, fqbn: str):

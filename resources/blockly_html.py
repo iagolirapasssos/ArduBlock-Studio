@@ -538,20 +538,27 @@ let currentTranslations = {{}};
 function updateTranslations(translationsJson) {{
   try {{
     currentTranslations = JSON.parse(translationsJson);
-    console.log('Translations updated:', currentTranslations);
-    if (workspace && workspace.getToolbox()) {{
-      updateToolboxCategories();
-    }}
+    console.log('[i18n] Translations updated: ' + Object.keys(currentTranslations).length + ' keys');
+    
+    // Atualizar categorias SEM recriar o toolbox
+    updateCategoryNames();
+    
+    // Atualizar labels da interface
+    updateUILabels();
+    
     log('Language changed to: ' + (currentLanguage === 'pt' ? 'Português' : 'English'), 'ok');
   }} catch(e) {{
-    console.error('Error updating translations:', e);
+    console.error('[i18n] Error updating translations:', e);
   }}
 }}
 
-function updateToolboxCategories() {{
-  const categoryMap = {{
+function updateCategoryNames() {{
+  if (!currentTranslations || Object.keys(currentTranslations).length === 0) return;
+  
+  // Mapa fixo: chave_traducao -> nome_em_ingles
+  var nameMap = {{
     'category_structure': 'Structure',
-    'category_functions': 'Functions', 
+    'category_functions': 'Functions',
     'category_digital': 'Digital Pins',
     'category_analog': 'Analog Pins',
     'category_time': 'Time',
@@ -564,47 +571,129 @@ function updateToolboxCategories() {{
     'category_servo': 'Servo Motor',
     'category_sensors': 'Sensors'
   }};
-
-  // Declaração global antecipada do ArduinoGen
-  window.ArduinoGen = null;
-  window._ArduinoGenReady = false;
-
-  // Aguardar definição do ArduinoGen
-  if (typeof ArduinoGen !== 'undefined' && ArduinoGen) {{
-      window._ArduinoGenReady = true;
-      if (window.dispatchEvent) {{
-          window.dispatchEvent(new CustomEvent('ArduinoGenReady'));
+  
+  var toolbox = document.getElementById('toolbox');
+  if (!toolbox) return;
+  
+  var categories = toolbox.querySelectorAll('category');
+  var updatedCount = 0;
+  
+  categories.forEach(function(cat) {{
+    var currentName = cat.getAttribute('name');
+    
+    // Procurar qual chave corresponde a esta categoria
+    for (var key in nameMap) {{
+      var enName = nameMap[key];
+      var ptName = currentTranslations[key] || enName;
+      
+      // Se o nome atual bate com inglês OU português, atualizar
+      if (currentName === enName || currentName === ptName) {{
+        var newName = currentTranslations[key] || enName;
+        cat.setAttribute('name', newName);
+        updatedCount++;
+        console.log('[i18n] Category: ' + currentName + ' -> ' + newName);
+        break;
       }}
-  }} else {{
-      // Monkey patch para capturar quando ArduinoGen for definido
-      var _arduinoGenSetter = null;
-      Object.defineProperty(window, 'ArduinoGen', {{
-          configurable: true,
-          enumerable: true,
-          get: function() {{ return window._arduinoGenValue; }},
-          set: function(val) {{
-              window._arduinoGenValue = val;
-              window._ArduinoGenReady = true;
-              if (window.dispatchEvent) {{
-                  window.dispatchEvent(new CustomEvent('ArduinoGenReady'));
-              }}
-          }}
-      }});
+    }}
+  }});
+  
+  console.log('[i18n] Updated ' + updatedCount + ' categories');
+  
+  // Atualizar o Blockly para refletir as mudanças
+  if (workspace && typeof workspace.updateToolbox === 'function') {{
+    try {{
+      workspace.updateToolbox(toolbox);
+    }} catch(e) {{
+      console.warn('[i18n] Blockly updateToolbox failed:', e);
+    }}
+  }}
+}}
+
+function updateUILabels() {{
+  var t = currentTranslations;
+  
+  // Atualizar labels do header
+  var ctrlLabels = document.querySelectorAll('.ctrl-label');
+  if (ctrlLabels.length >= 1 && t['board_label']) ctrlLabels[0].textContent = t['board_label'];
+  if (ctrlLabels.length >= 2 && t['port_label']) ctrlLabels[1].textContent = t['port_label'];
+  
+  // Atualizar botão Verify
+  if (t['btn_verify']) {{
+    var btn = document.querySelector('.btn-compile');
+    if (btn) btn.innerHTML = '<span class="material-icons">build</span> ' + t['btn_verify'];
   }}
   
-  Object.entries(categoryMap).forEach(([key, defaultName]) => {{
-    const translatedName = currentTranslations[key] || defaultName;
-    const categories = document.querySelectorAll('.blocklyTreeRow');
-    categories.forEach(cat => {{
-      const label = cat.querySelector('.blocklyTreeLabel');
-      if (label) {{
-        if (label.textContent === defaultName || label.textContent === currentTranslations[key]) {{
-          label.textContent = translatedName;
-        }}
+  // Atualizar botão Upload
+  if (t['btn_upload']) {{
+    var btn = document.querySelector('.btn-upload');
+    if (btn) btn.innerHTML = '<span class="material-icons">cloud_upload</span> ' + t['btn_upload'];
+  }}
+  
+  // Atualizar botão Serial
+  if (t['btn_serial']) {{
+    var btns = document.querySelectorAll('.btn-serial');
+    btns.forEach(function(btn) {{
+      if (btn.querySelector('.material-icons') && 
+          (btn.textContent.includes('Serial') || btn.textContent.includes('Libraries'))) {{
+        // Não alterar botão Libraries
+        if (btn.textContent.includes('Libraries') || btn.textContent.includes('Extensions')) return;
+        btn.innerHTML = '<span class="material-icons">terminal</span> ' + t['btn_serial'];
       }}
     }});
+  }}
+  
+  // Atualizar painel de código
+  if (t['code_title']) {{
+    var el = document.querySelector('#code-panel-hdr span');
+    if (el) el.innerHTML = '<span class="material-icons">code</span> ' + t['code_title'];
+  }}
+  
+  // Atualizar console
+  if (t['console_title']) {{
+    var el = document.querySelector('#log-hdr span');
+    if (el) el.innerHTML = '<span class="material-icons">terminal</span> ' + t['console_title'];
+  }}
+  
+  // Atualizar exemplos
+  if (t['examples_label']) {{
+    var el = document.querySelector('.ex-label');
+    if (el) el.innerHTML = '<span class="material-icons">school</span> ' + t['examples_label'];
+  }}
+  
+  // Atualizar botões de exemplos
+  var exKeys = ['ex_blink', 'ex_traffic', 'ex_serial_hello', 'ex_servo', 
+                'ex_ultrasonic', 'ex_analog', 'ex_pwm', 'ex_tone'];
+  var exBtns = document.querySelectorAll('.ex-btn');
+  exKeys.forEach(function(key, idx) {{
+    if (t[key] && exBtns[idx]) {{
+      var icon = exBtns[idx].querySelector('.material-icons');
+      if (icon) {{
+        exBtns[idx].innerHTML = icon.outerHTML + ' ' + t[key];
+      }}
+    }}
   }});
+  
+  // Atualizar títulos dos botões (tooltips)
+  if (t['menu_new']) {{
+    var btn = document.querySelector('.btn-new');
+    if (btn) btn.title = t['menu_new'];
+  }}
+  if (t['menu_save']) {{
+    var btn = document.querySelector('.btn-save');
+    if (btn) btn.title = t['menu_save'];
+  }}
+  if (t['menu_open']) {{
+    var btn = document.querySelector('.btn-load');
+    if (btn) btn.title = t['menu_open'];
+  }}
+  
+  // Atualizar status
+  if (t['status_ready']) {{
+    var statusBar = document.querySelector('#status span:last-child');
+    // Não alterar o nome do app na barra de status
+  }}
 }}
+
 
 function changeLanguage(lang) {{
   currentLanguage = lang;
@@ -1800,15 +1889,56 @@ function onBoardsDetected(json) {{
   connectedBoards = JSON.parse(json);
   const ps = document.getElementById('portSelect');
   ps.innerHTML = '<option value="">-- Select port --</option>';
-  const dot = document.getElementById('boardDot'), st = document.getElementById('boardStatus');
+  const dot = document.getElementById('boardDot');
+  const st = document.getElementById('boardStatus');
   dot.className = 'dot';
-  if (!connectedBoards.length) {{ st.textContent = 'No board'; dot.classList.add('err'); return; }}
-  dot.classList.add('ok'); st.textContent = `${{connectedBoards.length}} board(s)`;
+  
+  if (!connectedBoards.length) {{ 
+    st.textContent = 'No board';
+    dot.classList.add('err');
+    
+    // ========== MENSAGENS DE DIAGNÓSTICO ==========
+    log('⚠️ No Arduino board detected!', 'warn');
+    log('💡 Troubleshooting:', 'info');
+    
+    var os = navigator.platform || '';
+    if (os.indexOf('Win') !== -1) {{
+      log('  [Windows] Check Device Manager > Ports (COM & LPT)', 'info');
+      log('  [Windows] Install CH340 driver: wch.cn/downloads/CH341SER_EXE.html', 'info');
+      log('  [Windows] Use a DATA USB cable (not charge-only)', 'info');
+      log('  [Windows] Try USB 2.0 port (black, not blue)', 'info');
+    }} else if (os.indexOf('Linux') !== -1) {{
+      log('  [Linux] Run: ls -la /dev/ttyUSB* /dev/ttyACM*', 'info');
+      log('  [Linux] Run: sudo usermod -aG dialout $USER', 'info');
+      log('  [Linux] Logout and login after adding to dialout group', 'info');
+    }} else if (os.indexOf('Mac') !== -1) {{
+      log('  [macOS] Run: ls -la /dev/cu.* /dev/tty.*', 'info');
+      log('  [macOS] Install CH340 driver for macOS', 'info');
+    }}
+    log('  Use a DATA USB cable (not charge-only)', 'info');
+    log('  Test with Arduino IDE first to verify board works', 'info');
+    // ==============================================
+    
+    return;
+  }}
+  
+  dot.classList.add('ok');
+  st.textContent = connectedBoards.length + ' board(s)';
   connectedBoards.forEach(b => {{
     const opt = document.createElement('option');
-    opt.value = b.port; opt.textContent = `${{b.port}} -- ${{b.name}}`;
+    opt.value = b.port;
+    opt.textContent = b.port + ' -- ' + b.name;
     ps.appendChild(opt);
-    if (b.fqbn) {{ const bs = document.getElementById('boardSelect'); for (let o of bs.options) if (o.value === b.fqbn) {{ o.selected = true; currentFQBN = b.fqbn; break; }} }}
+    if (b.fqbn) {{
+      const bs = document.getElementById('boardSelect');
+      for (let o of bs.options) {{
+        if (o.value === b.fqbn) {{
+          o.selected = true;
+          currentFQBN = b.fqbn;
+          break;
+        }}
+      }}
+    }}
   }});
 }}
 

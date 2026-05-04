@@ -11,15 +11,15 @@ class Translations:
     # Language code
     language: str = "en"
     
-    # UI Translations - English and Portuguese
+    # UI Translations
     app_title: Dict[str, str] = field(default_factory=lambda: {
         "en": "ArduBlock Studio",
         "pt": "ArduBlock Studio"
     })
     
     app_subtitle: Dict[str, str] = field(default_factory=lambda: {
-        "en": "Visual Arduino Programming IDE",
-        "pt": "IDE Visual de Programação Arduino"
+        "en": "Visual Arduino Programming IDE for children and teenagers",
+        "pt": "IDE visual de programação Arduino para crianças e adolescentes"
     })
     
     menu_new: Dict[str, str] = field(default_factory=lambda: {
@@ -69,7 +69,7 @@ class Translations:
     
     status_compile_success: Dict[str, str] = field(default_factory=lambda: {
         "en": "Compilation successful",
-        "pt": "Compilação bem sucedida"
+        "pt": "Compilação bem-sucedida"
     })
     
     status_upload_success: Dict[str, str] = field(default_factory=lambda: {
@@ -99,7 +99,7 @@ class Translations:
     
     monitor_baud_label: Dict[str, str] = field(default_factory=lambda: {
         "en": "Baud Rate:",
-        "pt": "Taxa de Baud:"
+        "pt": "Baud Rate:"
     })
     
     monitor_clear: Dict[str, str] = field(default_factory=lambda: {
@@ -127,15 +127,9 @@ class Translations:
         "pt": "Fechar Monitor"
     })
     
-    # Block Categories
     category_structure: Dict[str, str] = field(default_factory=lambda: {
         "en": "Structure",
         "pt": "Estrutura"
-    })
-    
-    category_functions: Dict[str, str] = field(default_factory=lambda: {
-        "en": "Functions",
-        "pt": "Funções"
     })
     
     category_digital: Dict[str, str] = field(default_factory=lambda: {
@@ -193,7 +187,12 @@ class Translations:
         "pt": "Sensores"
     })
     
-    code_title: Dict[str, str] = field(default_factory=lambda: {
+    category_functions: Dict[str, str] = field(default_factory=lambda: {
+        "en": "Functions",
+        "pt": "Funções"
+    })
+    
+    code_panel_title: Dict[str, str] = field(default_factory=lambda: {
         "en": "GENERATED CODE",
         "pt": "CÓDIGO GERADO"
     })
@@ -220,7 +219,7 @@ class Translations:
     
     ex_serial_hello: Dict[str, str] = field(default_factory=lambda: {
         "en": "Serial Hello",
-        "pt": "Serial Olá"
+        "pt": "Serial Hello"
     })
     
     ex_servo: Dict[str, str] = field(default_factory=lambda: {
@@ -248,12 +247,23 @@ class Translations:
         "pt": "Buzzer"
     })
 
+    # Variáveis
+    var_global: Dict[str, str] = field(default_factory=lambda: {
+        "en": "Global",
+        "pt": "Global"
+    })
+    
+    var_local: Dict[str, str] = field(default_factory=lambda: {
+        "en": "Local",
+        "pt": "Local"
+    })
+
     def get(self, key: str, default: str = "") -> str:
         """Get translated string for current language."""
         if hasattr(self, key):
             translations_dict = getattr(self, key)
             if isinstance(translations_dict, dict):
-                return translations_dict.get(self.language, translations_dict.get("en", default))
+                return translations_dict.get(self.language, default)
         return default
     
     def t(self, key: str, **kwargs) -> str:
@@ -279,5 +289,5 @@ class Translations:
             if not key.startswith('_') and key not in ('language', 'to_json', 'get_all', 'get', 't'):
                 value = getattr(self, key)
                 if isinstance(value, dict):
-                    result[key] = value.get(self.language, value.get("en", key))
+                    result[key] = value.get(self.language, key)
         return result

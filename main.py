@@ -3,6 +3,7 @@
 import sys
 import platform
 import importlib
+import argparse  # Adicionar
 
 
 def check_dependencies() -> bool:
@@ -37,8 +38,19 @@ def check_dependencies() -> bool:
 
 def main():
     """Application entry point."""
+    
+    # Parser de argumentos
+    parser = argparse.ArgumentParser(description="ArduBlock Studio")
+    parser.add_argument("--no-scan", action="store_true", 
+                       help="Skip automatic board scanning on startup")
+    parser.add_argument("--debug", action="store_true",
+                       help="Enable debug mode")
+    args = parser.parse_args()
+    
     print("=" * 60)
     print("ARDOBLOCK STUDIO - Starting...")
+    if args.debug:
+        print("DEBUG MODE ENABLED")
     print("=" * 60)
     
     if not check_dependencies():
@@ -71,7 +83,7 @@ def main():
     app.setFont(QFont("Segoe UI", 10))
     
     print("Launching main window...")
-    window = MainWindow(translations)
+    window = MainWindow(translations, no_scan=args.no_scan, debug=args.debug)
     window.show()
     print("Application running.")
     

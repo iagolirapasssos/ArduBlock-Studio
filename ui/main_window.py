@@ -1,6 +1,7 @@
 """Main application window."""
 import json
 import sys
+import platform
 from pathlib import Path
 from PyQt6.QtWidgets import (
     QMainWindow, QMessageBox, QStatusBar, QDialog, QVBoxLayout, 
@@ -29,7 +30,7 @@ from extensions.api import ExtensionAPI
 class MainWindow(QMainWindow):
     """Main IDE window."""
     
-    def __init__(self, translations: Translations):
+    def __init__(self, translations: Translations, no_scan=False, debug=False):
         super().__init__()
         self.tr = translations
         self.cli = ArduinoCLI()
@@ -40,6 +41,8 @@ class MainWindow(QMainWindow):
         self.ext_manager = None
         self._extensions_loaded = False
         self._pending_js_queue = []
+        self.no_scan = no_scan  # NOVO
+        self.debug = debug  # NOVO
         
         self._setup_ui()
         self._setup_bridge()
@@ -57,15 +60,16 @@ class MainWindow(QMainWindow):
         # Setup auto-save timer
         self.auto_save_timer = QTimer()
         self.auto_save_timer.timeout.connect(self._auto_save)
-        self.auto_save_timer.start(30000)  # Every 30 seconds
+        self.auto_save_timer.start(30000)
         
         # Setup periodic cache cleanup
         self.cleanup_timer = QTimer()
         self.cleanup_timer.timeout.connect(self._cleanup_cache)
-        self.cleanup_timer.start(3600000)  # Every hour
+        self.cleanup_timer.start(3600000)
         
-        # Setup extension system after page loads
-        QTimer.singleShot(1500, self._setup_extensions)
+        # Setup extension system after page loads (DELAY MAIOR NO WINDOWS)
+        delay = 3000 if platform.system() == "Windows" else 1500
+        QTimer.singleShot(delay, self._setup_extensions)
 
     def _auto_save(self):
         """Auto-save current project to history."""
@@ -273,17 +277,84 @@ class MainWindow(QMainWindow):
     
     def _show_cli_warning(self):
         """Show warning if arduino-cli is not available."""
+        current_os = platform.system()
+        
         msg = QMessageBox(self)
-        msg.setWindowTitle("arduino-cli not found")
-        msg.setText(
-            "<b>The arduino-cli was not detected.</b><br><br>"
-            "To compile and upload code to Arduino, install arduino-cli:<br>"
-            "<a href='https://arduino.github.io/arduino-cli/latest/installation/'>"
-            "https://arduino.github.io/arduino-cli</a><br><br>"
-            "You can still create and view your visual programs!"
-        )
+        msg.setWindowTitle("Dependencies Check")
         msg.setIcon(QMessageBox.Icon.Warning)
-        msg.exec()
+        
+        # Construir mensagem baseada no sistema operacional
+        if current_os == "Windows":
+            message = """
+                <h3>⚠️ Required Dependencies Not Found</h3>
+                
+                <p><b>1. arduino-cli not detected!</b><br>
+                To compile and upload code, install arduino-cli:<br>
+                <a href='https://arduino.github.io/arduino-cli/latest/installation/'>
+                https://arduino.github.io/arduino-cli</a></p>
+                
+                <p><b>2. Arduino Drivers Required!</b><br>
+                For your Arduino board to be recognized on Windows:</p>
+                <ul>
+                    <li><b>Genuine Arduino UNO/Mega:</b> Driver installs automatically via Windows Update</li>
+                    <li><b>Arduino Nano/Clone (CH340/CH341):</b> 
+                    <a href='https://www.wch.cn/downloads/CH341SER_EXE.html'>Download CH340 Driver</a></li>
+                    <li><b>Arduino Compatible (CP210x):</b> 
+                    <a href='https://www.silabs.com/developers/usb-to-uart-bridge-vcp-drivers'>Download CP210x Driver</a></li>
+                </ul>
+                
+                <p>After installing, check <b>Device Manager > Ports (COM & LPT)</b></p>
+                
+                <p><i>💡 You can still create and view visual programs without these!</i></p>
+            """
+        elif current_os == "Linux":
+            message = """
+                <h3>⚠️ Required Dependencies Not Found</h3>
+                
+                <p><b>1. arduino-cli not detected!</b><br>
+                Install with:<br>
+                <code>curl -fsSL https://raw.githubusercontent.com/arduino/arduino-cli/master/install.sh | sh</code></p>
+                
+                <p><b>2. Serial Port Permissions Required!</b><br>
+                Add your user to the dialout group:<br>
+                <code>sudo usermod -aG dialout $USER</code><br>
+                <b>Then LOGOUT and LOGIN again!</b></p>
+                
+                <p><b>3. CH340/CH341 Driver (for clones):</b><br>
+                <code>sudo apt install ch341-dkms</code> (Debian/Ubuntu)<br>
+                Or check: <code>lsmod | grep ch341</code></p>
+                
+                <p>After setup, check:<br>
+                <code>ls -la /dev/ttyUSB* /dev/ttyACM*</code></p>
+            """
+        elif current_os == "Darwin":
+            message = """
+                <h3>⚠️ Required Dependencies Not Found</h3>
+                
+                <p><b>1. arduino-cli not detected!</b><br>
+                Install with:<br>
+                <code>brew install arduino-cli</code></p>
+                
+                <p><b>2. CH340/CH341 Driver (for clones):</b><br>
+                <a href='https://www.wch.cn/downloads/CH341SER_MAC_ZIP.html'>Download CH340 Driver for macOS</a></p>
+                
+                <p><b>3. CP210x Driver:</b><br>
+                <a href='https://www.silabs.com/developers/usb-to-uart-bridge-vcp-drivers'>Download CP210x Driver</a></p>
+                
+                <p>After installation, check:<br>
+                <code>ls -la /dev/cu.* /dev/tty.*</code></p>
+            """
+        else:
+            message = """
+                <h3>⚠️ arduino-cli Not Found</h3>
+                <p>Install from: <a href='https://arduino.github.io/arduino-cli/'>
+                https://arduino.github.io/arduino-cli</a></p>
+            """
+        
+        if not self.cli.is_available():
+            msg.setText(message)
+            msg.setTextFormat(Qt.TextFormat.RichText)
+            msg.exec()
     
     # ============================================================
     # EXTENSION SYSTEM
@@ -293,27 +364,73 @@ class MainWindow(QMainWindow):
         """Initialize the extension system after workspace is ready."""
         print("[EXTENSIONS] Initializing extension system...")
         
+        # No Windows, verificar se deve pular extensões
+        if platform.system() == "Windows" and not self.debug:
+            print("[EXTENSIONS] Windows detected - loading extensions safely...")
+        
         # Determina o caminho base (funciona no PyInstaller)
         if getattr(sys, 'frozen', False):
-            # Executável compilado
             base_dir = Path(sys._MEIPASS)
         else:
-            # Modo desenvolvimento
             base_dir = Path(__file__).parent.parent
         
         # Cria a API e o gerenciador
         self.ext_api = ExtensionAPI(workspace=None, bridge=self.bridge)
         self.ext_api.base_dir = base_dir
         
-        # Override inject_js method to use workspace
-        self.ext_api.inject_js = self._inject_js_to_workspace
-        self.ext_api._inject_js = self._inject_js_to_workspace  # Para compatibilidade
+        # Override inject_js method com proteção
+        original_inject = self._inject_js_to_workspace
+        self.ext_api.inject_js = original_inject
+        self.ext_api._inject_js = original_inject
         
         # Create extension manager
         self.ext_manager = DynamicExtensionManager(api=self.ext_api)
         
-        # Load all enabled extensions
-        self._load_extensions()
+        # Load extensions with delay
+        QTimer.singleShot(1000, self._load_extensions)
+
+
+    def _load_extensions(self):
+        """Load all enabled extensions with safety checks."""
+        # Verificar se página HTML carregou completamente
+        check_js = """
+        (function() {
+            if (typeof Blockly !== 'undefined' && 
+                typeof workspace !== 'undefined' && 
+                typeof ArduinoGen !== 'undefined') {
+                return 'ready';
+            }
+            return 'not_ready';
+        })()
+        """
+        
+        def on_check(result):
+            if result and result == 'ready':
+                print("[EXTENSIONS] Page ready, loading extensions...")
+                self._expose_api_to_javascript()
+                
+                if self.ext_manager:
+                    loaded = self.ext_manager.load_all_extensions()
+                    print(f"[EXTENSIONS] Loaded: {loaded}")
+                
+                self._extensions_loaded = True
+                
+                # Process pending JS queue
+                for js_code in self._pending_js_queue:
+                    try:
+                        self.view.page().runJavaScript(js_code)
+                    except:
+                        pass
+                self._pending_js_queue.clear()
+                
+                # Add extension button
+                QTimer.singleShot(500, self._add_extension_button)
+            else:
+                # Tentar novamente em 1 segundo
+                print("[EXTENSIONS] Waiting for page to load...")
+                QTimer.singleShot(1000, self._load_extensions)
+        
+        self.view.page().runJavaScript(check_js, on_check)
     
     def _inject_js_to_workspace(self, js_code: str):
         """Inject JavaScript code into the workspace."""
@@ -323,11 +440,6 @@ class MainWindow(QMainWindow):
                 self._pending_js_queue.append(js_code)
             else:
                 self.view.page().runJavaScript(js_code)
-    
-    def _load_extensions(self):
-        """Load all enabled extensions."""
-        # Check if workspace is ready
-        self.view.page().runJavaScript("typeof workspace !== 'undefined'", self._on_workspace_check)
     
     def _on_workspace_check(self, workspace_ready):
         """Callback when workspace readiness is checked."""

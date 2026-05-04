@@ -1,7 +1,4 @@
 altgraph==0.17.5
-certifi==2026.4.22
-charset-normalizer==3.4.7
-idna==3.13
 packaging==26.2
 pyinstaller==6.20.0
 pyinstaller-hooks-contrib==2026.4
@@ -11,5 +8,3 @@ PyQt6-WebEngine==6.11.0
 PyQt6-WebEngine-Qt6==6.11.0
 PyQt6_sip==13.11.1
 pyserial==3.5
-requests==2.33.1
-urllib3==2.6.3
