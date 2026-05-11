@@ -1,0 +1,17 @@
+{
+  "id": "advanced_math",
+  "name": {
+    "en": "Advanced Mathematics",
+    "pt": "Matemática Avançada"
+  },
+  "version": "1.0.0",
+  "description": {
+    "en": "Trigonometry, roots, logarithms and advanced mathematical functions",
+    "pt": "Trigonometria, raízes, logaritmos e funções matemáticas avançadas"
+  },
+  "author": "ArduBlock Studio Team",
+  "license": "MIT",
+  "category": "Mathematics",
+  "icon": "📐",
+  "color": "#1a7a6e"
+}
