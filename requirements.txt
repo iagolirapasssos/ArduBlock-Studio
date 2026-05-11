@@ -12,4 +12,4 @@ PyQt6-WebEngine-Qt6==6.11.0
 PyQt6_sip==13.11.1
 pyserial==3.5
 requests==2.33.1
-urllib3==2.6.3
+urllib3==2.7.0
